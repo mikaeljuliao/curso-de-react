@@ -40,26 +40,33 @@ Essa abordagem é boa para aprender e criar demostrações simples. Portanto, o 
 
 
 (crie um titulo para cá)
+basico do react:
 sempre quando trabalhamos com react, temos uma div princial com id chamada root
 pra usar o react usamos reactDOM. e usamos o metodo .render() e esse meotodo usada 
 para redenrizar o DOM (explique melhor sobre esse metodo), ficando dessa forma,
 reactDOM.render(<h1></h1>) e dentro do metodo de redenrizar passamos oque quiser.
 e o segundo metodo e o document e pegamos a div principal que será redenrizzada, por exemplo:
-reactDOM.render(<h1>olá mundo do React</h1>, document.getElementById("root"))
+//BÁSICO DO REACT
+ReactDOM.render(<h1>Olá Mundo!</h1>, document.getElementById("root"))
  
 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <title>Aprendendo React</title>
+    <!-- REACT VERSION 17.0.2-->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 </head>
+
 <body>
     <div id="root"></div>
     <script src="app.js" type="text/babel"></script>
 </body>
+
 </html>
