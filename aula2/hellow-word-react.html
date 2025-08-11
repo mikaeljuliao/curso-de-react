@@ -46,7 +46,7 @@ para redenrizar o DOM (explique melhor sobre esse metodo), ficando dessa forma,
 reactDOM.render(<h1></h1>) e dentro do metodo de redenrizar passamos oque quiser.
 e o segundo metodo e o document e pegamos a div principal que será redenrizzada, por exemplo:
 reactDOM.render(<h1>olá mundo do React</h1>, document.getElementById("root"))
-
+ 
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -59,7 +59,7 @@ reactDOM.render(<h1>olá mundo do React</h1>, document.getElementById("root"))
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 </head>
 <body>
-    <h1>olá mundo</h1>
-    <script src="app.js"></script>
+    <div id="root"></div>
+    <script src="app.js" type="text/babel"></script>
 </body>
 </html>
