@@ -1,54 +1,83 @@
 <!--
 nessa aula iremos ter nosso primeiro contato com react, iremos criar o olá mundo:
 
+Aula 2 – Primeiro contato com React (Criando o Olá Mundo):
 
-explicação sobre as versoes: o react em portugues, semre vai ser mais desatualizada 
-que a versção em ingles, mas isso não é um problema, so preciso usar a ingles caso
-eu quisesse o react de ponta, mas normalmente uma versão ou outra muda pouca coisa, 
-alguam coisa que é acresentrada, algum metodo ou sintaxe que é removida e etc.
+Sobre as versões do React:
+O React em português normalmente está um pouco mais desatualizado que a versão em inglês.
+Isso não é um problema — só seria necessário usar a versão em inglês se você quisesse 
+estar na versão mais recente possível, com todos os recursos de ponta.
+
+Na prática, a diferença entre elas costuma ser pequena:
+
+. Pode ter algo novo adicionado.
+. Algum método ou sintaxe removida.
+. Pequenas atualizações na documentação.
+
+Para aprender, praticar e até criar projetos simples, a versão em português já é 
+totalmente funcional.
 
 
+Como instalar o React no projeto:
+É bem simples. Segue o passo a passo:
 
-como instalar react no projeto:
-e bem simplis, a seguir o passo a passo:
-- vou no site https://pt-br.legacy.reactjs.org/ e escolho a versão (a que to usando é a portugues)
-- depois clico em documentação e no canto direito vou em CDN links
-- em CDN links eu vou ter os links pra colocar no projeto, e nesse caso eu so preciso copiar a primeira
-caixinha onde vai conter dois links
-- o proximo passo e importar esses links no head
-- esses links são os links do react e o react DOM, e sao eles,
+1. Acesse o site https://pt-br.legacy.reactjs.org/ e escolha a versão 
+(no meu caso, estou usando a em português).
+2. Clique em Documentação e, no canto direito, vá em CDN Links.
+3. Em CDN Links, você vai encontrar alguns códigos para colocar no projeto.
+    .Para o nosso caso, copie apenas a primeira caixinha, que contém dois links.
+
+4. Importe esses links dentro da tag <head> do seu HTML.
+
+Esses dois links são:
 <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
-o proximo passo é adicionar o link de reconhecimento jsx:
+. O primeiro é o React (a biblioteca principal).
+. O segundo é o React DOM (responsável por conectar o React ao DOM do navegador).
 
-- ainda em documentação, no canto direito eu vou em Adicionar o React a um site.
-- desendo a pagina eu vou encontrar um topico chamado experimente react com jsx,
-uma explicação rapida e que o jsx é uma sintaxe que permite usar o html dentro do 
-javascript
-- então para que o navegador possa entender essa sintaxe jsx, eu vou colar o link
-dentro do meu head tambem. ele sera como um conversor, ele vai pegar o jsx e transformar
-em algo que o navegador entenda
+Adicionando o JSX:
+1. Ainda na documentação, no canto direito, clique em Adicionar o React a um site.
+2. Descendo a página, você vai encontrar um tópico chamado "Experimente React com JSX".
 
-- e por fim eu posso usar o JSX em qualquer tag <script> somente adicionando o atributo type="text/babel" a ele.
-Essa abordagem é boa para aprender e criar demostrações simples. Portanto, o site fica lento e não fica adequado para produção.  
+O JSX é uma sintaxe especial que permite escrever HTML dentro do JavaScript.
+O navegador não entende JSX diretamente, então precisamos de algo que converta o JSX 
+para JavaScript puro que ele consiga processar.
+
+Esse "conversor" é adicionado por meio de um link que também colocamos no <head>:
+
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+Assim, podemos usar JSX dentro de qualquer <script> adicionando o atributo:
+
+<script type="text/babel">
+
+⚠️ Essa abordagem é ótima para aprender e fazer demonstrações simples.
+Mas em projetos reais, ela deixa o site lento e não é recomendada  para produção.
 
 
+Básico do React:
+Sempre que trabalhamos com React, temos uma div principal com um id chamado root. 
+É dentro dela que o React vai injetar todo o conteúdo da aplicação.
 
+Para exibir algo na tela, usamos o ReactDOM e o método .render().
 
+O que faz o .render()?
+O método .render() renderiza (ou seja, exibe) o conteúdo no DOM do navegador.
+Ele recebe dois parâmetros:
 
+1. O que queremos exibir — normalmente um elemento ou componente React.
+2. Onde queremos exibir — no caso, o elemento HTML que vai receber esse conteúdo.
 
-
-(crie um titulo para cá)
-basico do react:
-sempre quando trabalhamos com react, temos uma div princial com id chamada root
-pra usar o react usamos reactDOM. e usamos o metodo .render() e esse meotodo usada 
-para redenrizar o DOM (explique melhor sobre esse metodo), ficando dessa forma,
-reactDOM.render(<h1></h1>) e dentro do metodo de redenrizar passamos oque quiser.
-e o segundo metodo e o document e pegamos a div principal que será redenrizzada, por exemplo:
-//BÁSICO DO REACT
+Exemplo:
 ReactDOM.render(<h1>Olá Mundo!</h1>, document.getElementById("root"))
- 
+
+Aqui:
+. O primeiro parâmetro (<h1>Olá Mundo!</h1>) é o conteúdo que será exibido.
+. O segundo parâmetro (document.getElementById("root")) é a referência para a 
+nossa div principal no HTML.
+
+Dessa forma, o React pega o elemento <h1> e injeta dentro da div com id="root". 
 -->
 <!DOCTYPE html>
 <html lang="pt-br">
