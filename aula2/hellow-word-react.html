@@ -1,0 +1,65 @@
+<!--
+nessa aula iremos ter nosso primeiro contato com react, iremos criar o olá mundo:
+
+
+explicação sobre as versoes: o react em portugues, semre vai ser mais desatualizada 
+que a versção em ingles, mas isso não é um problema, so preciso usar a ingles caso
+eu quisesse o react de ponta, mas normalmente uma versão ou outra muda pouca coisa, 
+alguam coisa que é acresentrada, algum metodo ou sintaxe que é removida e etc.
+
+
+
+como instalar react no projeto:
+e bem simplis, a seguir o passo a passo:
+- vou no site https://pt-br.legacy.reactjs.org/ e escolho a versão (a que to usando é a portugues)
+- depois clico em documentação e no canto direito vou em CDN links
+- em CDN links eu vou ter os links pra colocar no projeto, e nesse caso eu so preciso copiar a primeira
+caixinha onde vai conter dois links
+- o proximo passo e importar esses links no head
+- esses links são os links do react e o react DOM, e sao eles,
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+o proximo passo é adicionar o link de reconhecimento jsx:
+
+- ainda em documentação, no canto direito eu vou em Adicionar o React a um site.
+- desendo a pagina eu vou encontrar um topico chamado experimente react com jsx,
+uma explicação rapida e que o jsx é uma sintaxe que permite usar o html dentro do 
+javascript
+- então para que o navegador possa entender essa sintaxe jsx, eu vou colar o link
+dentro do meu head tambem. ele sera como um conversor, ele vai pegar o jsx e transformar
+em algo que o navegador entenda
+
+- e por fim eu posso usar o JSX em qualquer tag <script> somente adicionando o atributo type="text/babel" a ele.
+Essa abordagem é boa para aprender e criar demostrações simples. Portanto, o site fica lento e não fica adequado para produção.  
+
+
+
+
+
+
+
+(crie um titulo para cá)
+sempre quando trabalhamos com react, temos uma div princial com id chamada root
+pra usar o react usamos reactDOM. e usamos o metodo .render() e esse meotodo usada 
+para redenrizar o DOM (explique melhor sobre esse metodo), ficando dessa forma,
+reactDOM.render(<h1></h1>) e dentro do metodo de redenrizar passamos oque quiser.
+e o segundo metodo e o document e pegamos a div principal que será redenrizzada, por exemplo:
+reactDOM.render(<h1>olá mundo do React</h1>, document.getElementById("root"))
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <h1>olá mundo</h1>
+    <script src="app.js"></script>
+</body>
+</html>
