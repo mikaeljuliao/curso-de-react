@@ -1,0 +1,165 @@
+<!--
+Aula 5 – Componentes e Props no React
+O que são Componentes?
+Componentes são maneiras simples de separar as partes da nossa aplicação para trabalhar melhor.
+
+Por exemplo, se você tem um menu no site, pode criar um componente só para esse menu (NavBar). Assim, sempre que precisar usar o menu, é só chamar o componente — sem precisar copiar e colar o código várias vezes.
+
+No React, componentes são funções JavaScript que recebem informações chamadas props e retornam elementos React, que dizem o que aparecer na tela.
+
+Criando um componente simples
+Aqui está um exemplo básico de componente:
+
+jsx
+Copiar
+Editar
+function BemVindo(props) {
+  return <h1>Olá mundo!</h1>;
+}
+
+ReactDOM.render(<BemVindo />, document.getElementById('root'));
+Nesse caso, BemVindo é um componente que retorna um título. Quando usamos <BemVindo />, o React executa essa função e mostra "Olá mundo!" na página.
+
+Componentes podem receber propriedades (props)
+Agora, para deixar o componente mais dinâmico, podemos passar informações para ele usando props:
+
+jsx
+Copiar
+Editar
+function BemVindo(props) {
+  return <h1>Olá {props.nome}!</h1>;
+}
+
+ReactDOM.render(
+  <div>
+    <BemVindo nome="Mikael" />
+    <BemVindo />
+  </div>,
+  document.getElementById('root')
+);
+Aqui, passamos o nome "Mikael" para o primeiro componente, que vai mostrar "Olá Mikael!". Já o segundo componente não recebeu nada, então não aparece nome nenhum.
+
+E se a prop não for passada?
+Para tratar quando a prop não foi passada, podemos usar uma condição dentro do componente:
+
+jsx
+Copiar
+Editar
+function BemVindo(props) {
+  if (props.nome) {
+    return <h1>Olá {props.nome}!</h1>;
+  }
+  return <h1>Olá estranho!</h1>;
+}
+
+ReactDOM.render(
+  <div>
+    <BemVindo nome="Dimitri" />
+    <BemVindo />
+  </div>,
+  document.getElementById('root')
+);
+Resultado no navegador:
+
+Para o primeiro componente: "Olá Dimitri!"
+
+Para o segundo componente: "Olá estranho!"
+
+Assim garantimos que o componente sempre mostre algo, mesmo sem prop.
+
+Criando um componente principal (App)
+Uma prática recomendada no React é criar um componente chamado App que funciona como o "container" da sua aplicação, onde você pode organizar vários componentes:
+
+jsx
+Copiar
+Editar
+function App() {
+  return (
+    <div>
+      <BemVindo nome="Dimitri" />
+      <BemVindo />
+    </div>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+Isso ajuda a manter o código organizado e fácil de entender.
+
+Como o React lê e renderiza componentes
+Quando o React vê um elemento como <BemVindo nome="Sara" />, ele chama a função BemVindo passando um objeto props com { nome: 'Sara' }.
+
+O componente retorna JSX, que é transformado em objetos React, que o React DOM usa para atualizar a tela de forma eficiente.
+
+Composição de componentes
+Componentes podem conter outros componentes. Por exemplo:
+
+jsx
+Copiar
+Editar
+function App() {
+  return (
+    <div>
+      <BemVindo nome="Sara" />
+      <BemVindo nome="Cahal" />
+      <BemVindo nome="Edite" />
+    </div>
+  );
+}
+Esse App renderiza três componentes BemVindo diferentes, cada um com um nome diferente.
+
+Extraindo componentes menores
+À medida que sua aplicação cresce, um componente pode ficar muito grande e complicado. Por isso, é comum dividir componentes em partes menores.
+
+Por exemplo, um componente Comment (comentário) pode ser dividido em:
+
+Avatar — mostra a foto do usuário.
+
+UserInfo — mostra o nome e avatar do usuário.
+
+Comment — mostra o comentário com texto e data, usando os dois componentes acima.
+
+Dividir assim facilita a manutenção e a reutilização.
+
+Props são somente leitura
+Dentro do componente, você não deve modificar as props. Elas são como os parâmetros de uma função: sempre os mesmos valores produzem o mesmo resultado.
+
+Se você precisar de algo que mude com o tempo, deve usar o conceito de state (que veremos em outra aula).
+
+Resumo dos pontos importantes:
+Componentes são funções JavaScript que retornam JSX.
+
+Props são os dados que você passa para os componentes.
+
+Se uma prop não for passada, o componente pode usar uma condição para tratar isso.
+
+É comum ter um componente principal chamado App que organiza tudo.
+
+Componentes podem conter outros componentes, criando uma árvore de componentes.
+
+Componentes grandes podem ser divididos em componentes menores para facilitar.
+
+Props são somente leitura, nunca modifique dentro do componente
+-->
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendendo React</title>
+    <!-- REACT VERSION 17.0.2-->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div id="root"></div>
+    <script src="app.js" type="text/babel"></script>
+</body>
+
+</html>
