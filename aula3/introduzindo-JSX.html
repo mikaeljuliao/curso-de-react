@@ -1,0 +1,193 @@
+<!--
+Aula 3 – Introdução ao JSX
+-      Baseado na documentação oficial do React (react.dev) + exemplos práticos.
+
+
+O que é JSX?
+JSX é uma extensão de sintaxe para JavaScript que permite escrever um código parecido 
+com HTML dentro do JavaScript.
+
+Porém, atenção:
+
+- JSX não é HTML;
+- JSX não é uma string (não tem aspas simples ou duplas);
+- Na verdade, JSX é convertido em objetos JavaScript que descrevem a interface que você quer renderizar.
+
+Exemplo básico:
+
+jsx
+const elemento = <h1>Olá, mundo!</h1>;
+
+Se você abrir o console e inspecionar esse elemento, verá que ele é um objeto com a estrutura parecida com:
+{
+  type: 'h1',
+  props: {
+    children: 'Olá, mundo!'
+  }
+}
+
+Ou seja, JSX cria objetos chamados Elementos React, que são usados para construir e atualizar o DOM.
+
+Por que usar JSX?
+- Facilita a leitura e manutenção do código;
+- Junta a lógica de renderização e da interface no mesmo lugar, evitando separar HTML e JS;
+- Permite ao React mostrar mensagens de erro mais úteis;
+- JSX é opcional, mas a maioria dos desenvolvedores prefere usar porque torna o código mais limpo e declarativo.
+
+
+Como JSX funciona por trás dos panos:
+JSX é compilado (normalmente pelo Babel) para chamadas da função React.createElement().
+
+Por exemplo, o JSX abaixo:
+const elemento = <h1 className="titulo">Olá, mundo!</h1>;
+
+É compilado para:
+const elemento = React.createElement(
+  'h1',
+  { className: 'titulo' },
+  'Olá, mundo!'
+);
+
+Que cria o objeto:
+{
+  type: 'h1',
+  props: {
+    className: 'titulo',
+    children: 'Olá, mundo!'
+  }
+}
+
+Esses objetos descrevem o que queremos renderizar, e o React usa isso para montar o 
+DOM e mantê-lo atualizado.
+
+
+Quebra de linha e organização no JSX:
+O JavaScript permite quebrar linhas para melhorar a legibilidade.
+
+Exemplo tudo em uma linha:
+ReactDOM.render(<h1>Olá, mundo!</h1>, document.getElementById("root"));
+
+Exemplo com quebra de linha para ficar mais claro:
+ReactDOM.render(
+  <h1>Olá, mundo!</h1>,
+  document.getElementById("root")
+);
+
+Dica: Sempre que quebrar linhas no JSX, coloque tudo entre parênteses para evitar erros de interpretação do JavaScript.
+dessa forma:
+const elemento = (
+  <h1>
+    Olá, mundo!
+  </h1>
+);
+
+Atributos no JSX
+Strings literais são colocadas entre aspas "", por exemplo:
+const link = <a href="https://react.dev">Documentação</a>;
+
+Expressões JavaScript dentro de atributos são colocadas entre chaves {}, por exemplo:
+const imagem = <img src={usuario.avatarUrl} />;
+
+⚠ Não misture aspas e chaves no mesmo atributo — ou aspas (string) ou chaves (expressão), mas não ambos juntos.
+
+
+Diferenças importantes entre HTML e JSX:
+class vira className no JSX, pois class é palavra reservada do JavaScript;
+
+- tabindex vira tabIndex (camelCase);
+- Os nomes das propriedades seguem a convenção camelCase em JSX.
+- Expressões dentro do JSX
+Você pode colocar qualquer expressão JavaScript válida dentro das chaves {}:
+
+Exemplo com variável:
+const nome = 'Mikael';
+const elemento = <h1>Olá, {nome}</h1>;
+
+Vai renderizar: Olá, Mikael.
+
+Exemplo com função:
+function formatarNome(user) {
+  return `${user.nome} ${user.sobrenome}`;
+}
+
+const usuario = { nome: 'Mikael', sobrenome: 'Rocha' };
+
+const elemento = <h1>Olá, {formatarNome(usuario)}</h1>;
+JSX é declarativo
+
+
+Vamos comparar como criar um elemento com JSX e com JavaScript puro:
+Com JSX (declarativo):
+const elemento = <h1 className="titulo">Olá, mundo!</h1>;
+ReactDOM.render(elemento, document.getElementById("root"));
+
+Com JavaScript puro (imperativo):
+const h1 = document.createElement('h1');
+h1.textContent = "Olá, mundo!";
+h1.className = 'titulo';
+document.getElementById("root").append(h1);
+
+
+Imperativo: você precisa dizer passo a passo o que fazer.
+Declarativo: você diz o que quer e o React cuida de fazer acontecer.
+
+
+Elementos filhos no JSX:
+Se uma tag está vazia, feche-a com />:
+const img = <img src="avatar.png" />;
+
+
+Se a tag tiver filhos, basta colocar dentro:
+const elemento = (
+  <div>
+    <h1>Olá!</h1>
+    <h2>Bem-vindo(a)!</h2>
+  </div>
+);
+Regra: O JSX precisa ter apenas um elemento pai. Se quiser vários elementos no mesmo 
+nível, envolva todos em uma <div> ou em um Fragmento <>...</>.
+
+
+Segurança no JSX:
+O React escapa automaticamente qualquer valor inserido no JSX, evitando ataques 
+do tipo XSS (Cross-site Scripting).
+
+Exemplo:
+const title = '<img src=x onerror=alert(1) />';
+const elemento = <h1>{title}</h1>; // Seguro!
+O React converte o valor para string antes de renderizar, garantindo que o código malicioso não seja executado.
+
+
+Resumo da Aula 3
+- JSX é uma sintaxe especial do JavaScript para descrever interfaces.
+- JSX produz objetos React Element que o React usa para renderizar a página.
+- Permite incluir variáveis, funções e expressões JavaScript.
+- Usa className e camelCase para atributos.
+- Precisa de um único elemento pai para múltiplos elementos.
+- Escapa automaticamente valores para evitar injeção de código malicioso.
+- JSX é declarativo, facilitando o desenvolvimento e manutenção do código.
+
+
+
+-->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendendo React</title>
+    <!-- REACT VERSION 17.0.2-->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script src="app.js" type="text/babel"></script>
+</body>
+
+</html>

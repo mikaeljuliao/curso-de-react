@@ -1,28 +1,27 @@
 <!--
 Poder da Renderização no React
-Nesta aula vamos entender como funciona a renderização do React e por que ela é tão poderosa para criar interfaces rápidas e eficientes.
+Nesta aula vamos entender como funciona a renderização do React e por que ela é tão 
+poderosa para criar interfaces rápidas e eficientes.
 
-Renderização e o DOM Virtual
-O React não altera diretamente o DOM real (aquele que o navegador usa para exibir a página).
+Renderização e o DOM Virtual:
+O React não altera diretamente o DOM real (aquele que o navegador usa 
+para exibir a página).
 Em vez disso, ele cria e mantém um DOM Virtual na memória.
 
 Quando algo muda na aplicação:
 
-O React atualiza primeiro o DOM Virtual.
+1. O React atualiza primeiro o DOM Virtual.
+2. Ele compara o DOM Virtual atualizado com a versão anterior.
+3. Só aplica no DOM real as mudanças necessárias, sem mexer no que não mudou.
 
-Ele compara o DOM Virtual atualizado com a versão anterior.
-
-Só aplica no DOM real as mudanças necessárias, sem mexer no que não mudou.
-
-Isso é chamado de reconciliação e torna a aplicação mais rápida e econômica, já que não fica redesenhando elementos que não precisam.
+Isso é chamado de reconciliação e torna a aplicação mais rápida e econômica, 
+já que não fica redesenhando elementos que não precisam.
 
 Exemplo Prático: Relógio em Tempo Real
-Na aula, fizemos um cronômetro simples que mostra a hora atual e atualiza automaticamente a cada segundo.
+Na aula, fizemos um cronômetro simples que mostra a hora atual e atualiza 
+automaticamente a cada segundo.
 
 Código usado:
-
-javascript
-Copiar código
 function relogio() {
   const elemento = (
     <div>
@@ -34,43 +33,40 @@ function relogio() {
 }
 
 setInterval(relogio, 1000);
-O que está acontecendo aqui
-A função relogio() cria um elemento JSX com:
 
-Um título (<h1>).
+O que está acontecendo aqui:
+- A função relogio() cria um elemento JSX com:
+   . Um título (<h1>).
+   . Um subtítulo (<h2>) que mostra a hora atual.
+- A cada 1 segundo, o setInterval() chama relogio(), gerando um novo elemento com a hora atualizada.
+- O React compara esse novo elemento com o anterior no DOM Virtual e identifica que apenas o <h2> mudou.
+- Ele então atualiza somente o <h2> no DOM real, deixando o restante da página intacto.
 
-Um subtítulo (<h2>) que mostra a hora atual.
 
-A cada 1 segundo, o setInterval() chama relogio(), gerando um novo elemento com a hora atualizada.
-
-O React compara esse novo elemento com o anterior no DOM Virtual e identifica que apenas o <h2> mudou.
-
-Ele então atualiza somente o <h2> no DOM real, deixando o restante da página intacto.
-
-Verificando na prática
+Verificando na prática:
 Você pode confirmar isso usando as ferramentas de desenvolvedor do navegador (F12 → Aba "Elements").
-Ao observar, verá que apenas o <h2> sofre alteração, enquanto o <h1> permanece igual. Isso significa que o React evita renderizações desnecessárias.
+Ao observar, verá que apenas o <h2> sofre alteração, enquanto o <h1> permanece igual. Isso significa 
+que o React evita renderizações desnecessárias.
+
 
 Por que isso é útil?
 Esse exemplo foi só com um relógio, mas o mesmo conceito vale para qualquer situação.
+
 Imagine:
-
-Uma promoção que aparece no seu site e expira em um horário específico.
+- Uma promoção que aparece no seu site e expira em um horário específico.
 Quando o tempo acabar, apenas o card da promoção será atualizado, e não a página inteira.
-
-Um feed de notícias que recebe novos posts em tempo real, sem recarregar todo o site.
-
-Uma tabela de preços que muda conforme dados vêm de um banco de dados.
+- Um feed de notícias que recebe novos posts em tempo real, sem recarregar todo o site.
+- Uma tabela de preços que muda conforme dados vêm de um banco de dados.
 
 Em todos esses casos, o React DOM:
-
-Compara o novo elemento e seus filhos com a versão anterior.
-
-Aplica somente as modificações necessárias para chegar ao estado desejado.
+1. Compara o novo elemento e seus filhos com a versão anterior.
+2. Aplica somente as modificações necessárias para chegar ao estado desejado.
 
 Conclusão
-O poder da renderização no React está na sua capacidade de trabalhar com o DOM Virtual, encontrar exatamente o que mudou e alterar apenas o necessário no DOM real.
-Isso economiza processamento, melhora a performance e garante uma experiência mais fluida para o usuário.
+O poder da renderização no React está na sua capacidade de trabalhar com o DOM Virtual, 
+encontrar exatamente o que mudou e alterar apenas o necessário no DOM real.
+Isso economiza processamento, melhora a performance e garante uma experiência mais fluida 
+para o usuário.
 
 
 
