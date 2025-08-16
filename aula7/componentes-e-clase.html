@@ -1,0 +1,274 @@
+<!--
+Aula 7 – Componentes de Classe no React (versão didática)
+1) Relembrando o contexto
+
+Até agora aprendemos sobre componentes funcionais, criando componentes através de 
+funções — essa é a forma mais atual e moderna de criar componentes com React hoje.
+
+Antigamente, quando queríamos utilizar um componente usando React, trabalhávamos com 
+classes. Essa é outra forma de criar componentes.
+
+2) Diferenças de componentes com classes e funções (bem direto):
+
+Componentes com Função (modernos)
+- Sintaxe curta (só uma função).
+- Recebe props direto: function MeuComp(props) { … }.
+- Acesso a dados reativos com Hooks (useState, useEffect, etc.).
+- Nada de this. Menos “boilerplate”.
+
+Componentes com Classe (legado/legibilidade histórica)
+- Sintaxe mais verbosa (classe + extends React.Component).
+- Acesso às props via this.props.
+- Métodos de ciclo de vida clássicos (componentDidMount, etc.).
+- Exigem render() para retornar JSX.
+- Úteis para ler projetos antigos e entender a evolução do React.
+
+Resumo mental: Função = simples e atual. Classe = mais verboso, bom pra entender código antigo.
+
+
+3) Como construir um componente de classe (passo a passo hiperexplicado):
+Passo 1 — Declare a classe:
+O que fazer: usar a palavra reservada class, dar um NomeComInicialMaiúscula e estender usando "extends"
+isso aqui React.Component.
+Por quê: extends React.Component diz que sua classe herda o comportamento de um componente do React 
+(é “filha” dele).
+ex:
+class Destaque extends React.Component {
+}
+
+Passo 2 — (Opcional, mas comum) Crie o constructor(props):
+O que fazer: declarar constructor(props).
+Por quê: o constructor é chamado assim que a classe é instanciada. Aqui você inicializa o componente (por exemplo, state).
+ex:
+class Destaque extends React.Component {
+  constructor(props) {
+    super(props) // Passa as props para a classe “mãe” (React.Component)
+  }
+}
+Importante: chamar super(props) garante que this.props esteja configurado dentro da classe. 
+é importante por que ele retornar o props do constructor e ele precisa está dentro dele.
+Se esquecer super(props), você pode tomar erro ao acessar this.props.
+
+
+Passo 3 — Implemente o método obrigatório render()
+O que fazer: criar um método render() que retorna o JSX do componente.
+Por quê: em classe, tudo que vai pra tela vem do render().
+
+class Destaque extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold">Custom jumbotron</h1>
+          <p class="col-md-8 fs-4">
+            Using a series of utilities, you can create this jumbotron...
+          </p>
+          <button class="btn btn-primary btn-lg" type="button">
+            Example button
+          </button>
+        </div>
+      </div>
+    )
+  }
+}
+
+
+✅ Assim, conseguimos criar um componente de classe.
+
+🔧 Correção recomendada (JSX): em JSX, o atributo é className, não class.
+Seu exemplo permanece válido para fins didáticos, mas a forma “certa” em React é:
+
+// mesma estrutura, trocando class -> className
+class Destaque extends React.Component {
+  render() {
+    return (
+      <div className="p-5 mb-4 bg-light rounded-3">
+        <div className="container-fluid py-5">
+          <h1 className="display-5 fw-bold">Custom jumbotron</h1>
+          <p className="col-md-8 fs-4">Using a series of utilities...</p>
+          <button className="btn btn-primary btn-lg" type="button">
+            Example button
+          </button>
+        </div>
+      </div>
+    )
+  }
+}
+
+Passo 4 — Renderize no DOM
+O que fazer: montar seu componente na página.
+ReactDOM.render(<Destaque />, document.getElementById('root'))
+
+💡 React 18+: a forma nova é createRoot, mas mantenho seu uso de 
+render aqui pra ficar alinhado com a aula.
+
+4) Props em função vs classe (com o mesmo exemplo):
+Em componente funcional (jeito moderno):
+Os props são passados diretamente como parâmetro:
+function Destaque(props) {
+  return (
+    <p>{props.texto}</p>
+  )
+}
+E usados assim:
+<Destaque texto="Oi, isso é um texto" />
+
+
+Você “pega” as props direto no parâmetro da função e usa {props.algo} no JSX.
+
+// componente funcional
+function Destaque(props) {
+  return (
+    <div class="p-5 mb-4 bg-light rounded-3">
+      <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Custom jumbotron</h1>
+        <p class="col-md-8 fs-4">{props.texto}</p>
+        <button class="btn btn-primary btn-lg" type="button">Example button</button>
+      </div>
+    </div>
+  )
+}
+function App() {
+  return (
+    <main>
+      <div class="container py-4">
+        <Destaque texto="oi, isso é um texto" />
+      </div>
+    </main>
+  )
+}
+ReactDOM.render(<App />, document.getElementById('root'))
+Observação: em JSX o ideal é className. Mantive seu class como 
+você escreveu e deixei a dica de correção acima.
+
+
+Em componente de classe (jeito “antigo”, diferente):
+
+É necessário usar this.props (porque estamos dentro de uma classe):
+
+class Destaque extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <p>{this.props.texto}</p>
+    )
+  }
+}
+E o uso fica assim:
+<Destaque texto="Oi, isso é um texto" />
+
+
+Aqui, sempre usamos this.props (porque estamos dentro de uma classe).
+
+// componente de classe:
+class Destaques extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold">Custom jumbotron</h1>
+          <p class="col-md-8 fs-4">{this.props.texto}</p>
+          <button class="btn btn-primary btn-lg" type="button">Example button</button>
+        </div>
+      </div>
+    )
+  }
+}
+
+function App() {
+  return (
+    <main>
+      <div class="container py-4">
+        <Destaque texto="oi, isso é um texto" />
+        <Destaques texto="oi, isso é o segundo texto" />
+      </div>
+    </main>
+  )
+}
+ReactDOM.render(<App />, document.getElementById('root'))
+
+Por que this?
+“this” (isto) aponta para a instância da classe no momento atual.
+Em classe, tudo vive dentro de this: this.props, this.state, etc.
+Se tentar usar props direto em classe, sem this., vai dar erro.
+
+- Em função: props.algo
+- Em classe: this.props.algo
+
+
+
+5) Por que seu exemplo funcional funciona e o de classe “quebra” se copiar igual?
+- Em função, você usa props direto → funciona.
+- Em classe, precisa de this.props e do método render() → se copiar sem ajustar, quebra.
+
+
+
+6) Erros comuns (e como resolver rapidinho):
+- Esquecer super(props) no constructor
+Sintoma: erro ao acessar this.props.
+Correção: chame super(props) no topo do constructor.
+
+- Esquecer o método render()
+Sintoma: nada aparece; erro dizendo que render não existe.
+Correção: sempre implemente render() e retorne o JSX.
+
+- Usar class em vez de className
+Sintoma: warnings ou comportamento inesperado no JSX.
+Correção: troque class por className (recomendação oficial).
+
+- Acessar props errado em classe
+Sintoma: props is not defined.
+Correção: use this.props.
+
+- Nome do componente com letra minúscula
+Sintoma: React acha que é tag HTML (<destaque />).
+Correção: Comece com maiúscula: <Destaque />.
+
+
+
+
+7) Dica moderna (sem substituir sua aula)
+Hoje, preferimos componentes funcionais + hooks.
+Classes seguem existindo em muito projeto legado, por isso é ótimo 
+você saber construir e ler um componente de classe sem tropeçar.
+
+-->
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendendo React</title>
+    <!-- REACT VERSION 17.0.2-->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div id="root"></div>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <script src="comp.js" type="text/babel"></script>
+    <script src="app.js" type="text/babel"></script>
+</body>
+
+</html>
