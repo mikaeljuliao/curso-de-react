@@ -1,0 +1,210 @@
+<!--
+
+Aula 08 - Estado (State) em Componentes de Classe
+Introdução
+
+Nessa aula aprendemos um dos conceitos mais importantes do React: 
+o estado (ou state em inglês).
+É justamente o estado que faz o React ser tão poderoso, pois ele permite 
+que a interface responda automaticamente às mudanças de dados.
+
+O que é o estado em React?
+. O estado é como se fosse uma variável especial, que armazena valores de 
+um componente.
+. Diferente de uma variável comum, o state pertence somente ao componente 
+onde foi criado.
+. Sempre que o valor do estado muda, o React detecta a mudança e renderiza 
+novamente o componente, atualizando a interface automaticamente.
+
+👉 Analogia divertida:
+. Estado "solteiro" → vida de festas, mais livre.
+. Estado "casado" → responsabilidades aumentam, vida mais caseira, às vezes até engorda.
+. Se o estado mudar de novo para "solteiro", a vida se "re-renderiza" de forma diferente.
+
+
+Inicializando o estado em componentes de classe:
+Sempre que for usar estado em uma classe:
+. O estado deve ser inicializado dentro do método constructor().
+. Usamos this.state = { ... } para declarar os valores iniciais.
+. O estado é um objeto e pode ter vários valores.
+Exemplo:
+class Destaques extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      nome: "Mikael"
+    }
+  }
+
+  render() {
+    return (
+      <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold">{this.state.nome}</h1>
+          <p class="col-md-8 fs-4">{this.props.texto}</p>
+          <button class="btn btn-primary btn-lg" type="button">Example button</button>
+        </div>
+      </div>
+    )
+  }
+}
+
+👉 Note que usamos this.state.nome para acessar o valor.
+
+
+
+Como mudar o estado de valor?
+Para alterar o estado, nunca mudamos this.state diretamente.
+Devemos usar o método especial setState().
+
+
+O que é o setState()?
+. É um método fornecido pelo React.
+. Permite atualizar o valor do estado de forma correta.
+. Ao ser chamado, ele agenda uma atualização e dispara uma nova renderização do componente.
+
+Maneira 1 — Usando função com prevState (RECOMENDADO):
+Essa forma é recomendada, pois garante que estamos sempre trabalhando com o 
+estado mais recente (importante porque o estado é assíncrono).
+
+O que é o prevState?
+. Representa o estado anterior.
+. Usamos quando queremos alterar o valor atual levando em conta o valor anterior.
+
+Exemplo simples:
+trocarNome = () => {
+  this.setState(function(prevState) {
+    return { nome: 'Lucas' }
+  })
+}
+
+Exemplo com concatenação do estado anterior:
+trocarNome = () => {
+  this.setState(function(prevState) {
+    return { nome: prevState.nome + ' Gabriel' }
+  })
+}
+
+👉 Isso é útil quando queremos acrescentar coisas ao valor antigo em vez 
+de substituí-lo totalmente.
+
+
+Maneira 2 — Atualizando diretamente no objeto:
+Outra forma de usar setState é passando direto um objeto.
+
+Exemplo:
+add = () => {
+  this.setState({ count: this.state.count + 1 })
+}
+
+⚠️ Porém, essa forma não é recomendada, porque o React pode ainda não ter 
+atualizado o valor mais recente (estado é assíncrono). Isso pode gerar 
+resultados errados em operações que dependem do valor anterior.
+
+👉 Por isso, o ideal é sempre usar a forma com função e prevState.
+
+
+
+
+Exemplo prático – Criando um Contador
+// COMPONENTE DE CLASSE
+class Contador extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    }
+  }
+
+  add = () => {
+    this.setState(function(prevState) {
+      return { count: prevState.count + 1 }
+    })
+  }
+
+  sub = () => {
+    this.setState(function(prevState) {
+      return { count: prevState.count - 1 }
+    })
+  }
+
+  render() {
+    return (
+      <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold">Contador: {this.state.count}</h1>
+          <p class="col-md-8 fs-4">Aprendendo State (Estado)</p>
+          <div class="row gap-2">
+            <button onClick={this.sub} class="col btn btn-danger btn-lg" type="button">Sub -</button>
+            <button onClick={this.add} class="col btn btn-success btn-lg" type="button">Add +</button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+
+function App() {
+  return (
+    <main>
+      <div class="container py-4">
+        <Contador />
+      </div>
+    </main>
+  )
+}
+ReactDOM.render(<App />, document.getElementById('root'));
+
+
+Explicação do exemplo acima:
+
+. O estado inicial (this.state.count) começa em 0.
+. O botão "Add +" chama o método add, que incrementa o estado de count.
+. O botão "Sub -" chama o método sub, que decrementa o estado de count.
+. Como o estado muda, o React re-renderiza o componente e o valor exibido em 
+<h1> muda automaticamente.
+
+👉 Esse exemplo mostra claramente como o estado é dinâmico e como o React 
+liga mudanças de dados à interface visual.
+
+Resumindo
+. O state é um objeto que guarda valores exclusivos de cada componente.
+. Mudanças no state são feitas com setState().
+. prevState é a forma recomendada de atualizar quando dependemos do valor anterior.
+. Toda vez que o estado muda → o componente é re-renderizado.
+
+💡 Extra dica minha: Hoje em dia, em projetos modernos, a forma mais comum de 
+lidar com estado é usando Hooks (useState) em componentes funcionais. Mas entender 
+o state em classes é essencial para compreender o funcionamento interno do React.
+
+-->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendendo React</title>
+    <!-- REACT VERSION 17.0.2-->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div id="root"></div>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <script src="app.js" type="text/babel"></script>
+</body>
+
+</html>
