@@ -1,101 +1,93 @@
 <!--
-Aula 09 - Estado (State) em Componentes Funcionais (UseState Hook):
+Aula 09 – Estado (State) em Componentes Funcionais (Hook useState):
+Introdução: Estado em Componentes Funcionais
 
-quando trabalhamos com estados em componentes funcionais eles recebem um nome diferente, 
-chamamos de Hook
+Quando trabalhamos com estados em componentes funcionais, eles recebem um nome diferente:
+👉 chamamos de Hook.
+
+Por que se chama Hook?
+. Até a versão 16.8 do React, só era possível usar state em componentes de classe.
+. A partir da versão 16.8 foram introduzidos os Hooks, que permitem usar state e outros 
+recursos do React sem precisar escrever classes.
+. O termo hook significa literalmente "gancho".
+. Faz referência ao fato de que o React criou uma adaptação, um “gancho”, 
+para trazer para 
+os componentes funcionais recursos que antes só eram possíveis em classes.
+
+O que é um Hook?
+Um Hook é uma função especial do React que te permite utilizar recursos internos como:
+- state (estado)
+- ciclo de vida
+- context
+- entre outros...
+
+Exemplo:
+- O useState é um Hook que permite adicionar estado a um componente de função.
 
 
-por que se chama hook?
-por que até a versão  16.8, so podiamos usar com um estado, state, em um componente de claasse,
-Hooks são uma nova adição ao React 16.8. Eles permitem que você use o state e outros 
-recursos do React sem escrever uma classe.
-hook traduzido e literlamente "gancho", faz referencia a uma adptação do react, como
-se tivese pegado um "gancho" com o metodo que só era possivel em componentes de classe.
-e com isso, com essa adição passou a ser chamado de hook.
+Resumo simples do conceito de Hook:
+👉 Resumidamente, é só uma nova forma de falar sobre o mesmo conceito de state, 
+mas aplicada em componentes funcionais ao invés de classes.
 
 
+Como trabalhar com estados em componentes funcionais:
+1. Primeiro criamos uma constante com colchetes [] (como se fosse um array).
+. O primeiro valor será o estado em si.
+. O segundo valor será a função que atualiza esse estado.
 
-
-oque é um hook?
-Um Hook é uma função especial que te permite utilizar recursos do React. Por exemplo, 
-useState é um Hook que te permite adicionar o state (estado) do React a um componente de função.
-
-
-resumo simplis de hook:
-resumindamente é so uma palavrinha, um jeito diferente que falar a mesma coisa de state 
-que fazemos nos componentes de classe.
-
-
-Como trabalhar com estados em componenentes funcional:
-1- primeiro passo e passar uma constant e abrir colchetes, [], ou seja, como se fosse um array.
-2- e dentro de colchetes eu passo o primeiro parametro que vai ser qual vai ser o valor desse estado, const [count] e o segundo parametro será o nome da função que vamos querer usar pra atualizar o valor, etc,
-exemplo:
 const [count, setCount]
 
-normalmente no segundo valor samos set e o nome do primeiro valor
-3- e vamos falar que ele é igual = e vamos usar um metodo especial hook, o useState(), e podemos passar um valor inicial para ele
-ex: 
+🔑 Convenção: o segundo valor geralmente segue o padrão set + nomeDoEstado.
+
+2. Em seguida usamos o hook useState(), podendo passar um valor inicial.
 const [count, setCount] = useState(0)
 
-pode ser 0, vazio "", oque quiser.
+. O valor inicial pode ser 0, uma string "", true/false, array ou objeto.
 
-e dessa forma criamos um estado com hook
 
-4- importante, react sendo importado:
-caso o react esteja sendo importado com cdn.
-  <script crossorigin src="https://unpkg.com/
-  react-dom@17/umd/react-dom.development.js"></script>
+3. Importação do React:
+. Se o React for importado via CDN, precisamos usar React.useState().
+. Exemplo:
 
-. nos passamos precisamos especificar que estamos puxando da biblioteca React,
-e fzemos isso acresentando React. e o useState()
-dessa forma:
 const [count, setCount] = React.useState(0)
 
-detalhe: 
-isso so é preciso por que estamos importando, em metodos mais profisionais, vamos fazer a importação em cima do projeto, 
-onde não tem necessidade fazer isso, iremos ver isso la na frente do curso.
+Em projetos mais profissionais (com bundlers como Webpack/Vite/Next.js), 
+fazemos a importação no início do arquivo, então não é necessário usar o React. antes.
 
 
 
-como podemos modificar esse estado?
-- primeiro precisamos criar um função normalmente e da o nome a ela, e dentro dessa função precisamos pegar o estado e fazer com que atualize o estado.
-- e pra fazer isso pegamos a função que criamos que no caso é o segundo parametro e passamos dentro dele que
-e passamos o valor que no caso é o segundo parametro e oque ele vai receber, no caso, pode ser + 1.
-ficando dessa forma:
- function add(){
-    setCount(count + 1)
-  }
+Como modificar o estado:
+. Criamos uma função normalmente.
+. Dentro dela, usamos a função de atualização do estado 
+(o segundo parâmetro) e passamos o novo valor.
+
+Exemplo:
+function add() {
+  setCount(count + 1);
+}
 
 
-  
-atribuindo componentes funcionais:
-com classe, precisamos passar o this, com componentes funcionais só precisamos abrir chaves na tag e passar o nome da função ou o valor do estado hook.
-dessa forma:
+Atribuindo valores e funções no JSX:
+. Em componentes de classe, precisamos usar this.state e this.setState.
+. Em componentes funcionais, basta usar chaves {} no JSX:
 
-  return (
-    <div class="p-5 mb-4 bg-light rounded-3">
-      <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">Contador: {count}</h1>
-        <p class="col-md-8 fs-4">Aprendendo State (Estado)</p>
-        <div class="row gap-2">
-          <button onClick={sub} class="col btn btn-danger btn-lg" type="button">Sub -</button>
-          <button onClick={add} class="col btn btn-success btn-lg" type="button">add +</button>
-        </div>
-      </div>
-    </div>
-  )
-(faça uma breve explicação onde foi adicionado oque expliquei, no caso em onclick que so pasei a função e o resto)
+Exemplo:
+<h1>Contador: {count}</h1>
+<button onClick={add}>Add +</button>
+
+
+📌 Repare:
+. No atributo onClick, só passamos a função add (sem parênteses).
+. O valor {count} é renderizado diretamente no JSX.
 
 
 
+Exemplo completo: Contador com Estado em Componente Funcional:
 
-
-contador com estados em componente funcionais:
-
-//COMPONENTE FUNCIONAL
+// COMPONENTE FUNCIONAL
 function Contador(props) {
 
-  //CRIAR UM STATE
+  // CRIAR UM STATE
   const [count, setCount] = React.useState(0);
 
   function add() {
@@ -113,7 +105,7 @@ function Contador(props) {
         <p class="col-md-8 fs-4">Aprendendo State (Estado)</p>
         <div class="row gap-2">
           <button onClick={sub} class="col btn btn-danger btn-lg" type="button">Sub -</button>
-          <button onClick={add} class="col btn btn-success btn-lg" type="button">add +</button>
+          <button onClick={add} class="col btn btn-success btn-lg" type="button">Add +</button>
         </div>
       </div>
     </div>
@@ -125,7 +117,6 @@ function App() {
     <main>
       <div class="container py-4">
         <Contador />
-
       </div>
     </main>
   )
@@ -137,19 +128,37 @@ ReactDOM.render(
 );
 
 
+Explicação didática do exemplo:
+. Criamos um estado com useState(0).
+. Renderizamos esse valor no JSX ({count}).
+. Criamos duas funções (add e sub) que atualizam o estado.
+. Atribuímos essas funções ao evento onClick dos botões.
+
+✅ Diferença para componente de classe:
+. Classe: precisa de this.state e this.setState.
+. Funcional com Hook: usamos diretamente [estado, setEstado] = useState().
+. Isso deixa o código mais limpo, direto e fácil de entender.
 
 
+Recapitulando como usar um Hook de State:
 
-( faça uma explicação dadatica sobre o estados, hooks sobre esse exmplo contador com componentes funcionais, e fale sobre a diferença de criar estados com ponentes funcionais com base nesse exemplo de contador que criei com estados de classe e componentes funcionais, as diferenças das duas formas.)
+1: Criamos uma constante com dois parâmetros em colchetes:
+. Primeiro = nome do estado.
+. Segundo = função de atualização.
+
+const [count, setCount] = useState(0);
 
 
+2: Criamos uma função que chama a função de atualização, passando o novo valor.
 
-recapitulando como se usa UM HOOK de state:
-1- primeiro criamos uma constante e passamos dois parametro dentro de colchetes, onde o primeiro será o nome da chave e o segundo o nome da função pra atualizar o estado.
-e passamos que é = useState() que é o metodo especial pra inicializar nosso estado com valor inicial.
-2- e ai quando querems fazer uma atualização, so precisamos criar uma função e dentro dela passa o nome da função do hook, e dentro passamos o nome da chave oque deve alterar, como + 1
-3- depois e so renderizar em alguam tag com {} e dentro de chaves o valor da chave, primeiro parametro
+function add() {
+  setCount(count + 1);
+}
 
+
+3: Renderizamos no JSX usando chaves {}:
+<h1>{count}</h1>
+ 
 -->
 
 <!DOCTYPE html>
