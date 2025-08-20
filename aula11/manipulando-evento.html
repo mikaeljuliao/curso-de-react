@@ -1,0 +1,44 @@
+<!--
+
+
+Eventos no React:
+Já estamos acostumados com eventos no JavaScript, que são ações disparadas quando 
+há alguma interação do usuário no projeto, como cliques, mudanças em campos de 
+texto ou envio de formulários.
+
+No React, os eventos funcionam de forma bem parecida, mas existem algumas diferenças 
+importantes na forma como eles são escritos e usados.
+
+
+Diferença de eventos no JavaScript e no React:
+- JavaScript: os eventos são escritos em letras minúsculas.
+- React: os eventos são escritos em camelCase (primeira palavra minúscula 
+e as seguintes com a primeira letra maiúscula).
+
+📌 Exemplo em JavaScript:
+<button onclick="activateLasers()">
+  Ativar laser
+</button>
+
+
+📌 Exemplo em React:
+<button onClick={activateLasers}>
+  Ativar laser
+</button>
+
+
+Passando funções em eventos no React:
+Outra diferença importante é que, quando usamos componentes funcionais, 
+ao passar a função no evento não precisamos colocar () no final.
+
+. Apenas abrimos {} e colocamos o nome da função.
+. O React executa a função somente quando o evento acontece.
+
+📌 Exemplo em React:
+<button onClick={add} className="col btn btn-success btn-lg" type="button">
+  Add +
+</button>
+
+
+Se colocássemos onClick={add()}, a função seria executada assim que a página fosse renderizada, e não quando o botão fosse clicado.
+-->
