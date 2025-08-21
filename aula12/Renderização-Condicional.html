@@ -1,0 +1,152 @@
+<!--
+Renderização Condicional em React:
+
+Renderização condicional em React nada mais é do que usar condições do 
+JavaScript (como if, else, ou operadores ternários ? :) para decidir o 
+que mostrar na tela.
+
+É como se disséssemos:
+👉 "Se tal coisa acontecer, mostre isso. Caso contrário, mostre aquilo."
+
+Isso dá um controle total sobre como o componente vai se comportar de acordo 
+com estados, props ou qualquer outro valor que definirmos.
+
+Exemplo 1 – Renderização com Props
+
+Aqui, o componente vai renderizar mensagens diferentes dependendo do 
+valor recebido em uma prop.
+
+function Saudacao(props) {
+  if (props.isLoggedIn) {
+    return <h2>Bem-vindo de volta!</h2>;
+  } else {
+    return <h2>Por favor, faça login.</h2>;
+  }
+}
+
+function App() {
+  return (
+    <div>
+      <Saudacao isLoggedIn={true} />
+      <Saudacao isLoggedIn={false} />
+    </div>
+  );
+}
+
+
+📌 Explicação:
+
+. Passamos uma prop chamada isLoggedIn.
+; Se for true, aparece "Bem-vindo de volta!".
+. Se for false, aparece "Por favor, faça login.".
+
+
+Exemplo 2 – Renderização com State:
+Agora, a renderização muda dependendo de um estado que é 
+atualizado com um botão.
+
+function Controle() {
+  const [mostrar, setMostrar] = React.useState(false);
+
+  return (
+    <div>
+      <button onClick={() => setMostrar(!mostrar)}>
+        {mostrar ? "Ocultar Mensagem" : "Mostrar Mensagem"}
+      </button>
+
+      {mostrar && <p>🎉 Essa mensagem só aparece se o estado for TRUE!</p>}
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <div>
+      <Controle />
+    </div>
+  );
+}
+
+
+📌 Explicação:
+
+. Criamos um estado chamado mostrar, começando como false.
+. O botão inverte o estado (true ↔ false).
+. Se mostrar for true, o parágrafo aparece. Se for false, não aparece nada.
+
+👉 Dessa forma conseguimos controlar como cada componente aparece na tela, dependendo de props ou state.
+
+
+
+Exemplo 3 – Contador com componente separado:
+
+Esse exemplo mostra como podemos dividir partes da aplicação 
+em componentes reutilizáveis e organizados.
+
+📌 A ideia é simples:
+
+. Teremos um contador que sobe cada vez que clicamos no botão.
+. Quando o contador passar de 10, será exibido um componente separado 
+chamado Explodiu, que mostrará um <h1> com o texto “Explodiu”.
+
+Código:
+import { useState } from "react";
+
+// Componente separado que será exibido quando o contador passar de 10
+function Explodiu() {
+  return <h1>💥 Explodiu!</h1>;
+}
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Contador: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Aumentar</button>
+
+      {/* Renderização condicional com componente separado */}
+      {count > 10 && <Explodiu />}
+    </div>
+  );
+}
+
+Explicação:
+. Criamos o componente Explodiu separado do App, apenas retornando um <h1>.
+. No App, usamos useState para controlar o contador.
+. O botão aumenta o contador com setCount(count + 1).
+. Quando o valor for maior que 10, renderizamos o componente <Explodiu />.
+
+Esse exemplo mostra como podemos dividir responsabilidades, deixando o código mais organizado.
+
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendendo React</title>
+    <!-- REACT VERSION 17.0.2-->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div id="root"></div>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <script src="app.js" type="text/babel"></script>
+</body>
