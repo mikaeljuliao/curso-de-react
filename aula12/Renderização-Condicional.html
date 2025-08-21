@@ -119,9 +119,269 @@ Explicação:
 
 Esse exemplo mostra como podemos dividir responsabilidades, deixando o código mais organizado.
 
+
+
+
+
+🔹 Renderização Condicional Inline:
+1. Usando operador lógico &&:
+
+No React, você pode inserir expressões dentro do JSX usando chaves {}.
+Um operador lógico muito usado é o &&, que significa:
+👉 “se a condição for verdadeira, renderize esse elemento”.
+então se a condição for falsa, não faz nada.
+
+📌 Exemplo com o contador que explode:
+
+import { useState } from "react";
+
+// Componente separado só para o texto "Explodiu"
+function Explosao() {
+  return <h1>💥 Explodiu!</h1>;
+}
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <h1>Contador: {count}</h1>
+      <button onClick={() => setCount(count + 1)}>Aumentar</button>
+
+      {/* Se count for maior que 10, renderiza o componente Explosao */}
+      {count > 10 && <Explosao />}
+    </div>
+  );
+}
+
+export default App;
+
+
+✔ Aqui usamos {count > 10 && <Explosao />}.
+✔ Se count > 10 for true, o React renderiza o componente <Explosao />.
+✔ Se for false, não renderiza nada.
+
+2. Usando Operador Condicional (Ternário ? :)
+
+Outra forma inline é usando o operador ternário.
+Ele funciona como um if-else resumido:
+👉 condição ? seVerdadeiro : seFalso
+
+📌 Exemplo com o mesmo contador:
+
+import { useState } from "react";
+
+// Mesmo componente Explosao criado antes
+function Explosao() {
+  return <h1>💥 Explodiu!</h1>;
+}
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <h1>Contador: {count}</h1>
+      <button onClick={() => setCount(count + 1)}>Aumentar</button>
+
+      {/* Usando operador ternário para decidir o que mostrar */}
+      {count > 10 ? <Explosao /> : <p>Ainda está seguro 😅</p>}
+    </div>
+  );
+}
+
+export default App;
+
+
+✔ Aqui usamos {count > 10 ? <Explosao /> : <p>Ainda está seguro 😅</p>}.
+✔ Se count > 10 for true → renderiza <Explosao />.
+✔ Se for false → mostra o <p>Ainda está seguro 😅</p>.
+
+
+
+
+
+
+
+📘 Explicando o Código da Aula:
+explicação do codigo que foi usado na aula. 
+melhor comprensão do que foi aprendido 
+
+🔹 1. Criando um componente separado (Explodiu)
+function Explodiu() {
+  return (
+    <h1 className="text-danger">EXPLODIU!</h1>
+  );
+}
+
+
+👉 Esse é um componente funcional bem simples.
+Ele retorna apenas um <h1> estilizado com Bootstrap (text-danger = vermelho).
+Ele será usado no render condicional do contador quando o valor for maior que 10.
+
+🔹 2. Criando o componente principal (Contador)
+function Contador(props) {
+  let tema = props.tema;
+  let btnNome = props.btnNome;
+
+. props são valores que o componente pai pode enviar.
+. Aqui recebemos tema e btnNome.
+. btnNome é usado para iniciar o estado do nome.
+
+🔹 3. Criando estados (useState):
+  const [count, setCount] = React.useState(0);
+  const [nome, setNome] = React.useState(btnNome);
+
+. count: guarda o valor do contador.
+. nome: guarda o nome exibido na tela (inicia com btnNome, 
+que veio das props).
+. setCount e setNome são funções que atualizam esses valores.
+
+
+🔹 4. Criando efeitos colaterais (useEffect)
+
+O useEffect executa códigos extras em momentos específicos do ciclo de vida do componente.
+
+🟢 Executa apenas uma vez na montagem
+  React.useEffect(() => {
+    console.log('ATIVOU EFEITO COLATERAL APENAS NA MONTAGEM');
+  }, []);
+
+
+O array vazio [] significa: só roda quando o componente for montado pela primeira vez.
+
+Muito usado para chamadas de API ou inicializações.
+
+🟢 Executa quando o count muda
+  React.useEffect(() => {
+    document.title = 'Contador: ' + count;
+    console.log('ATIVOU EFEITO COLATERAL DO COUNT');
+    if (count >= 5) {
+      setNome('Dimitri');
+    }
+  }, [count]);
+
+
+Aqui, toda vez que count mudar:
+
+O título da aba do navegador muda para "Contador: X".
+
+Se count for 5 ou mais, automaticamente troca o nome para "Dimitri".
+
+🟢 Executa quando o nome muda
+  React.useEffect(() => {
+    console.log('ATIVOU EFEITO COLATERAL DO NOME');
+  }, [nome]);
+
+
+Esse efeito é chamado toda vez que o estado nome for atualizado.
+
+Exemplo: quando clicamos no botão "Trocar Nome".
+
+🔹 5. Criando funções para atualizar os estados
+  function add() {
+    setCount(count + 1);
+  }
+
+  function sub() {
+    setCount(count - 1);
+  }
+
+  function trocaNome() {
+    setNome('Dimitri');
+  }
+
+
+add: aumenta o contador.
+
+sub: diminui o contador.
+
+trocaNome: altera o nome manualmente para "Dimitri".
+
+🔹 6. Renderização condicional e exibição do componente
+  return (
+    <div className="p-5 mb-4 bg-light rounded-3">
+      <div className="container-fluid py-5">
+        {
+          nome && <h1 className="display-5 fw-bold">Nome: {nome}</h1>
+        }
+
+        {
+          count > 10 
+            ? <Explodiu /> 
+            : <h1 className="display-5 fw-bold">Contador: {count}</h1>
+        }
+
+
+nome && <h1>...</h1> → se nome tiver valor (não for false ou vazio), renderiza o <h1>.
+
+count > 10 ? <Explodiu /> : <h1>Contador...</h1> → se o contador passar de 10, mostra o componente Explodiu, senão mostra o valor normal do contador.
+
+🔹 7. Botões que disparam eventos
+        <p className="col-md-8 fs-4">Aprendendo State (Estado)</p>
+        <div className="row gap-2">
+          <button onClick={sub} className="col btn btn-danger btn-lg" type="button">Sub -</button>
+          <button onClick={add} className="col btn btn-success btn-lg" type="button">add +</button>
+        </div>
+        <button onClick={trocaNome} className="col btn btn-primary btn-lg" type="button">Trocar Nome</button>
+
+
+onClick={sub} → chama a função sub para diminuir o contador.
+
+onClick={add} → chama a função add para aumentar.
+
+onClick={trocaNome} → altera o nome para "Dimitri".
+
+🔹 8. Componente principal (App)
+function App() {
+  return (
+    <main>
+      <div className="container py-4">
+        <Contador btnNome={false} />
+      </div>
+    </main>
+  );
+}
+
+
+O App é o componente raiz.
+
+Ele renderiza Contador e passa a prop btnNome={false}, que vai inicializar o nome.
+
+🔹 9. Renderizando tudo no DOM
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+);
+
+
+Aqui o React insere o App dentro da <div id="root"> no HTML.
+
+✅ Resumo dos temas vistos na aula:
+
+Componentização → separar partes do código (Explodiu, Contador, App).
+
+Props → passar valores de um componente para outro (btnNome).
+
+State (useState) → armazenar valores dinâmicos (count, nome).
+
+Effect Hook (useEffect) → rodar efeitos colaterais em 3 situações:
+
+Sempre que o componente monta ([]).
+
+Quando count muda ([count]).
+
+Quando nome muda ([nome]).
+
+Eventos (onClick) → disparar funções ao clicar em botões.
+
+Renderização condicional → exibir ou não algo dependendo do estado.
+
+&& para verificar se nome existe.
+
+? : ternário para decidir se mostra o contador ou o Explodiu.
+
 -->
-
-
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -150,3 +410,5 @@ Esse exemplo mostra como podemos dividir responsabilidades, deixando o código m
         crossorigin="anonymous"></script>
     <script src="app.js" type="text/babel"></script>
 </body>
+
+</html>
