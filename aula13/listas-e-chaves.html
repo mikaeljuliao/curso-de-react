@@ -1,0 +1,215 @@
+<!--
+
+Aula 13: Listas e Chaves no React:
+
+Esse é um conceito muito importante de se aprender no React, 
+principalmente quando falamos de manipulação de dados, já que 
+são esses dados que vão formar nossos componentes.
+
+Normalmente, quando trabalhamos com React, para alimentar nossos 
+componentes com informações, esses dados vêm no formato de um array (
+uma lista de elementos).
+Por isso, saber percorrer e manipular arrays é essencial para fazer 
+a renderização correta dos componentes.
+
+
+O método map() no React:
+
+. No React, usamos bastante um método JavaScript chamado map(), 
+que basicamente é tudo que precisamos para trabalhar com arrays.
+. O map() percorre cada item de um array e retorna um novo array 
+modificado de acordo com a lógica que você escrever dentro dele.
+
+🔹 Exemplo simples: multiplicando valores com map():
+const arr = [1, 2, 3, 4, 5];
+
+const arrDobro = arr.map((numero) => numero * 2);
+
+console.log(arrDobro); 
+// Saída: [2, 4, 6, 8, 10]
+
+ReactDOM.render(
+  <h1>Olá mundo!</h1>,
+  document.getElementById('root')
+);
+
+
+👉 O que aconteceu aqui?
+
+Criamos um array arr com os números [1, 2, 3, 4, 5].
+
+. Usamos map() para percorrer cada número do array.
+. Para cada número, multiplicamos por 2.
+. O resultado foi armazenado em um novo array chamado arrDobro.
+. Por fim, imprimimos esse novo array no console: [2, 4, 6, 8, 10].
+. O ponto importante é que o map() não altera o array original, ele sempre retorna um novo.
+
+
+Chaves (key) no React:
+
+Quando renderizamos listas no React usando map(), precisamos dar uma 
+identidade única para cada item da lista.
+Isso é feito através da prop key.
+
+As chaves ajudam o React a identificar:
+. Quais itens sofreram alterações,
+. Quais foram adicionados,
+. Quais foram removidos.
+. Se não usarmos key, o React pode ter problemas para atualizar a lista de forma eficiente.
+
+🔹 Exemplo com key
+const numbers = [1, 2, 3, 4, 5];
+
+const listItems = numbers.map((number) =>
+  <li key={number.toString()}>
+    {number}
+  </li>
+);
+
+
+👉 Aqui cada item do array numbers foi percorrido e transformado em uma tag <li>.
+Repare que usamos key={number.toString()} para garantir que cada item tenha um identificador único.
+
+
+Como escolher boas chaves:
+
+A melhor forma de escolher uma chave é usar algo que identifique de forma única o item da lista.
+Na maioria dos casos, usamos o ID do objeto (quando os dados vêm de um banco de dados ou API).
+
+🔹 Exemplo usando IDs
+const todoItems = todos.map((todo) =>
+  <li key={todo.id}>
+    {todo.text}
+  </li>
+);
+
+
+👉 Aqui usamos o todo.id como chave, garantindo que cada item seja único.
+. Quando usar índice como chave (e por que evitar)
+.Se você não possui IDs estáveis para os itens renderizados, é possível usar o índice do array como chave em último caso.
+
+🔹 Exemplo com índice
+const todoItems = todos.map((todo, index) =>
+  // Apenas faça isso caso os itens não possuam IDs estáveis
+  <li key={index}>
+    {todo.text}
+  </li>
+);
+
+
+⚠️ Atenção!
+Não é recomendado usar índices como chave se a ordem dos itens pode mudar, pois isso pode causar:
+
+. Problemas de desempenho,
+. Erros no gerenciamento do estado dos componentes,
+. Atualizações incorretas na interface.
+. Caso você não defina uma chave explicitamente, o React usará o índice automaticamente,
+ mas isso não é o ideal.
+
+👉 Para se aprofundar, há até um artigo do Robin Pokorny que explica os impactos negativos 
+de se usar índices como chave.
+
+
+
+
+Entendendo o uso da Key no React:
+
+Key é uma palavra-chave reservada no React.
+Ela recebe um valor único, que vai identificar especificamente 
+o item dentro da lista.
+
+👉 Normalmente, quando trabalhamos com dados vindos de uma matriz 
+(array) ou até mesmo de um banco de dados, essa chave costuma ser o 
+id da linha no banco.
+
+Exemplo prático:
+const arr = [1, 2, 3, 4, 5];
+
+const itemLista = arr.map((numero) => 
+  <li key={numero.toString()}>{numero}</li>
+);
+
+ReactDOM.render(
+  <ul>{itemLista}</ul>,
+  document.getElementById('root')
+);
+
+Explicação:
+. No exemplo acima, pegamos os números do array arr e os 
+transformamos em uma lista (<li>).
+. A cada item da lista, foi adicionada a propriedade key.
+. O valor passado para a key foi numero.toString(), ou seja, 
+transformamos o número em texto, porque a palavra reservada key 
+sempre precisa ser uma string (texto).
+
+
+exemplo mais real do dia a dia de manipulação de lista:
+function App(props) {
+
+  const usuarios = [
+    { id: 1, nome: "Dimitri", idade: 30 },
+    { id: 2, nome: "Bruno", idade: 20 },
+    { id: 3, nome: "Maria", idade: 99 },
+    { id: 4, nome: "Rafael", idade: 19 },
+  ];
+
+  return (
+    <ul><Item lista={usuarios} /></ul>
+  )
+}
+
+function Item(props) {
+
+  const usuarios = props.lista;
+
+  return (
+    usuarios.map(
+      (usuario) =>
+        <li key={usuario.id.toString()}>
+          Nome: {usuario.nome} <br />
+          Idade: {usuario.idade}<br /><br />
+        </li>
+    )
+  )
+
+}
+
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+);
+
+-->
+
+
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendendo React</title>
+    <!-- REACT VERSION 17.0.2-->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div id="root"></div>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <script src="app.js" type="text/babel"></script>
+</body>
+
+</html>
