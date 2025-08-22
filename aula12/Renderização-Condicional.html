@@ -237,10 +237,11 @@ function Contador(props) {
 que veio das props).
 . setCount e setNome são funções que atualizam esses valores.
 
-
+ 
 🔹 4. Criando efeitos colaterais (useEffect)
 
-O useEffect executa códigos extras em momentos específicos do ciclo de vida do componente.
+O useEffect executa códigos extras em momentos específicos 
+do ciclo de vida do componente.
 
 🟢 Executa apenas uma vez na montagem
   React.useEffect(() => {
@@ -248,9 +249,9 @@ O useEffect executa códigos extras em momentos específicos do ciclo de vida do
   }, []);
 
 
-O array vazio [] significa: só roda quando o componente for montado pela primeira vez.
-
-Muito usado para chamadas de API ou inicializações.
+. O array vazio [] significa: só roda quando o componente for 
+montado pela primeira vez.
+. Muito usado para chamadas de API ou inicializações.
 
 🟢 Executa quando o count muda
   React.useEffect(() => {
@@ -262,17 +263,14 @@ Muito usado para chamadas de API ou inicializações.
   }, [count]);
 
 
-Aqui, toda vez que count mudar:
-
-O título da aba do navegador muda para "Contador: X".
-
-Se count for 5 ou mais, automaticamente troca o nome para "Dimitri".
+. Aqui, toda vez que count mudar:
+. O título da aba do navegador muda para "Contador: X".
+. Se count for 5 ou mais, automaticamente troca o nome para "Dimitri".
 
 🟢 Executa quando o nome muda
   React.useEffect(() => {
     console.log('ATIVOU EFEITO COLATERAL DO NOME');
   }, [nome]);
-
 
 Esse efeito é chamado toda vez que o estado nome for atualizado.
 
@@ -313,9 +311,9 @@ trocaNome: altera o nome manualmente para "Dimitri".
         }
 
 
-nome && <h1>...</h1> → se nome tiver valor (não for false ou vazio), renderiza o <h1>.
-
-count > 10 ? <Explodiu /> : <h1>Contador...</h1> → se o contador passar de 10, mostra o componente Explodiu, senão mostra o valor normal do contador.
+. nome && <h1>...</h1> → se nome tiver valor (não for false ou vazio), renderiza o <h1>.
+. count > 10 ? <Explodiu /> : <h1>Contador...</h1> → se o contador passar de 10, mostra o 
+componente Explodiu, senão mostra o valor normal do contador.
 
 🔹 7. Botões que disparam eventos
         <p className="col-md-8 fs-4">Aprendendo State (Estado)</p>
@@ -326,11 +324,9 @@ count > 10 ? <Explodiu /> : <h1>Contador...</h1> → se o contador passar de 10,
         <button onClick={trocaNome} className="col btn btn-primary btn-lg" type="button">Trocar Nome</button>
 
 
-onClick={sub} → chama a função sub para diminuir o contador.
-
-onClick={add} → chama a função add para aumentar.
-
-onClick={trocaNome} → altera o nome para "Dimitri".
+. onClick={sub} → chama a função sub para diminuir o contador.
+. onClick={add} → chama a função add para aumentar.
+. onClick={trocaNome} → altera o nome para "Dimitri".
 
 🔹 8. Componente principal (App)
 function App() {
@@ -343,10 +339,8 @@ function App() {
   );
 }
 
-
-O App é o componente raiz.
-
-Ele renderiza Contador e passa a prop btnNome={false}, que vai inicializar o nome.
+. O App é o componente raiz.
+. Ele renderiza Contador e passa a prop btnNome={false}, que vai inicializar o nome.
 
 🔹 9. Renderizando tudo no DOM
 ReactDOM.render(
@@ -354,32 +348,22 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-
 Aqui o React insere o App dentro da <div id="root"> no HTML.
 
+  
 ✅ Resumo dos temas vistos na aula:
 
-Componentização → separar partes do código (Explodiu, Contador, App).
-
-Props → passar valores de um componente para outro (btnNome).
-
-State (useState) → armazenar valores dinâmicos (count, nome).
-
-Effect Hook (useEffect) → rodar efeitos colaterais em 3 situações:
-
-Sempre que o componente monta ([]).
-
-Quando count muda ([count]).
-
-Quando nome muda ([nome]).
-
-Eventos (onClick) → disparar funções ao clicar em botões.
-
-Renderização condicional → exibir ou não algo dependendo do estado.
-
-&& para verificar se nome existe.
-
-? : ternário para decidir se mostra o contador ou o Explodiu.
+. Componentização → separar partes do código (Explodiu, Contador, App).
+. Props → passar valores de um componente para outro (btnNome).
+. State (useState) → armazenar valores dinâmicos (count, nome).
+. Effect Hook (useEffect) → rodar efeitos colaterais em 3 situações:
+. Sempre que o componente monta ([]).
+. Quando count muda ([count]).
+. Quando nome muda ([nome]).
+. Eventos (onClick) → disparar funções ao clicar em botões.
+. Renderização condicional → exibir ou não algo dependendo do estado.
+. && para verificar se nome existe.
+. ? : ternário para decidir se mostra o contador ou o Explodiu.
 
 -->
 

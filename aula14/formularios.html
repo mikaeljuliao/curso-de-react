@@ -1,0 +1,542 @@
+<!--
+Aula 14 – Formulários e Componentes Controlados
+
+
+Diferenças entre HTML e React nos formulários:
+Quando a gente vem do HTML puro para o React, algumas diferenças aparecem:
+
+1. for vira htmlFor:
+. No HTML, usamos o atributo for no <label> para ligar o campo ao id do <input>.
+. No React, como for é uma palavra reservada do JavaScript, usamos htmlFor.
+
+<label htmlFor="nome">Nome:</label>
+<input id="nome" type="text" />
+
+
+2. Fechamento das tags <input />:
+. No HTML puro, você pode deixar <input> aberto.
+. No React, como tudo é JSX (baseado em XML), precisa fechar sempre:
+
+<input type="text" />  
+<input type="checkbox" />  
+
+. Isso vale também para img, br, etc.
+
+
+
+3. Diferença com <select> e <textarea>:
+. O <select> e o <textarea> já têm tag de abertura e fechamento, então 
+    continuam do mesmo jeito que no HTML.
+
+<select>
+  <option>Opção 1</option>
+</select>
+
+<textarea></textarea>
+
+
+
+Componentes Controlados:
+No HTML puro, quando você digita em um campo de formulário (input, textarea, select), 
+o próprio elemento guarda o valor digitado.
+
+No React, trabalhamos de outro jeito:
+
+. O estado (useState) do componente é quem guarda o valor.
+. O input só mostra o que o estado manda mostrar.
+. Isso faz com que o React seja a única fonte da verdade (ou seja, o React sabe exatamente o 
+que está escrito em cada campo, a cada tecla que você digita).
+
+
+Exemplo básico:
+
+function Formulario() {
+  const [nome, setNome] = React.useState("");
+
+  function handleChange(event) {
+    setNome(event.target.value); // atualiza o estado conforme digita
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault(); // impede o refresh
+    alert("Nome enviado: " + nome);
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="nome">Nome:</label>
+      <input 
+        id="nome" 
+        type="text" 
+        value={nome} 
+        onChange={handleChange} 
+      />
+      <button type="submit">Enviar</button>
+    </form>
+  );
+}
+
+
+- Sua conclusão (e está certa ✅)
+
+“Então isso quer dizer que cada item do nosso formulário vai ficar salvo 
+no estado, onde vai ter o conteúdo de cada um dos itens guardado na memória 
+do componente. Dessa forma podemos fazer alguma coisa enquanto a pessoa digita, 
+ou então conseguir trabalhar com as informações dos inputs antes que seja 
+enviado ao back end quando o usuário clicar no botão de enviar.”
+
+Perfeito! 👏
+É exatamente isso:
+
+. A cada digitação o estado é atualizado.
+. Você pode usar esse estado para mostrar mensagens em tempo real, validar dados 
+antes de enviar, ou até bloquear o botão de enviar se algo não estiver correto.
+. Quando o usuário clica em "Enviar", você já tem tudo no estado, pronto para ser 
+mandado para a API/back-end.
+
+👉 Resumindo:
+. No HTML os campos cuidam sozinhos de seu valor.
+. No React os campos viram controlados pelo estado 
+→ isso dá muito mais poder e controle.
+
+
+
+Atualizando Objetos no State com Spread Operator:
+Quando temos um formulário com vários campos (como cliente, dia, horário, wifi, etc.), 
+normalmente guardamos todos eles em um único objeto dentro do useState.
+
+Mas aí surge uma questão: como atualizar apenas um campo do objeto sem apagar os outros?
+👉 Para isso usamos o spread operator (...), que copia o objeto inteiro, e depois 
+mudamos só o campo que queremos.
+
+O código explicado:
+function FormReserva() {
+  const [form, setForm] = React.useState({
+    cliente: '',
+    dia: '',
+    horario: '',
+    wifi: false,
+    churrasqueira: false,
+    piscina: false,
+    obs: ''
+  });
+
+  const handleChange = (event) => {
+    const auxForm = { ...form }; // 1️⃣ copiamos o objeto atual
+    auxForm[event.target.name] =
+      event.target.type === "checkbox"
+        ? event.target.checked // 2️⃣ se for checkbox, usamos true/false
+        : event.target.value;  // 3️⃣ se for input normal, usamos o texto digitado
+    setForm(auxForm); // 4️⃣ atualizamos o estado com o objeto novo
+  };
+}
+
+resalando algo importante:
+1️⃣ se for numeros boleanos, true/false pegamos o valor com heckbox e nãp value
+2️⃣  se for input normal, usamos value para pegar o valor o texto digitado
+
+campos do tipo checkbox trabalhamos com valores boleanos, se eu fosse tentar pegar o valor e não passase
+checkbox, ele iria me retornar o valor vazio
+
+Passo a passo:
+
+1. {...form} – Copiando o objeto atual:
+
+. O operador spread pega todas as chaves e valores atuais do objeto form e cria 
+uma cópia nova.
+. Isso é importante porque no React não devemos modificar o estado diretamente.
+. Exemplo: {...form} cria um novo objeto com os mesmos campos de form.
+
+
+2. event.target.name – Descobrindo qual campo mudou:
+
+. Cada <input> do formulário tem um atributo name.
+. Esse name é usado como chave dentro do objeto form.
+. Exemplo: se o input for <input name="cliente" />, ao digitar algo nele, 
+event.target.name será "cliente".
+
+
+
+3. event.target.value e event.target.checked:
+
+. Para inputs de texto, event.target.value é o que o usuário digitou.
+. Para checkboxes, precisamos usar event.target.checked, que retorna true ou false.
+
+
+4. setForm(auxForm) – Atualizando o estado:
+
+. Chamamos o setForm passando o novo objeto atualizado.
+. Isso faz o componente re-renderizar e mostrar os valores atualizados em tempo real.
+
+Por que precisamos do event?
+
+Sua dúvida é muito boa 👏
+
+. O event é o objeto de evento que o React entrega para a função quando algo acontece 
+(nesse caso, quando o usuário digita ou marca um checkbox).
+
+.Dentro dele temos várias informações úteis:
+
+. event.target.name → qual campo disparou o evento
+. event.target.value → o valor digitado (inputs de texto)
+. event.target.checked → estado do checkbox (true/false)
+
+👉 Se não tivéssemos o event, nossa função não teria como saber qual campo foi 
+alterado nem qual valor atribuir.
+Ou seja, o parâmetro é essencial para a comunicação entre o input e o React.
+
+
+
+
+Trabalhando com <textarea> e <select> no React:
+
+Quando usamos formulários no HTML puro, alguns elementos guardam o valor de 
+forma diferente do que no React.
+
+No React, como aprendemos antes, todos os campos devem ser controlados pelo estado 
+→ ou seja, precisamos ligar o campo ao state com value e onChange.
+
+1. <textarea>
+
+🔹 No HTML comum:
+O conteúdo de um <textarea> é definido entre a tag de abertura e fechamento:
+
+<textarea>
+  Texto inicial
+</textarea>
+
+
+🔹 No React:
+Isso não funciona, porque o valor precisa vir de um atributo value, igual a um <input>.
+Assim, conseguimos controlar o que aparece no campo diretamente pelo estado.
+
+Exemplo:
+
+class EssayForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 'Escreva aqui seu texto inicial...'
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ value: event.target.value }); 
+    // atualiza o estado a cada digitação
+  }
+
+  handleSubmit(event) {
+    alert('Texto enviado: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Digite algo:
+          <textarea 
+            value={this.state.value} 
+            onChange={this.handleChange} 
+          />
+        </label>
+        <input type="submit" value="Enviar" />
+      </form>
+    );
+  }
+}
+
+
+✅ Repare: no React, sempre usamos value + onChange. Assim, o textarea funciona 
+exatamente como um input type="text".
+
+
+2. <select>
+
+🔹 No HTML comum:
+Para deixar uma opção selecionada, usamos o atributo selected:
+
+<select>
+  <option value="laranja">Laranja</option>
+  <option value="limao">Limão</option>
+  <option selected value="coco">Coco</option>
+</select>
+
+
+🔹 No React:
+Em vez de usar selected em cada <option>, usamos um único value no <select>.
+Isso facilita porque o estado controla tudo em um só lugar.
+
+Exemplo:
+
+class FlavorForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { value: 'coco' }; 
+    // valor inicial já vem do state
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ value: event.target.value });
+  }
+
+  handleSubmit(event) {
+    alert('Seu sabor favorito é: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Escolha um sabor:
+          <select 
+            value={this.state.value} 
+            onChange={this.handleChange}
+          >
+            <option value="laranja">Laranja</option>
+            <option value="limao">Limão</option>
+            <option value="coco">Coco</option>
+            <option value="manga">Manga</option>
+          </select>
+        </label>
+        <input type="submit" value="Enviar" />
+      </form>
+    );
+  }
+}
+
+
+✅ Repare: não existe selected em nenhuma <option>. Quem controla a 
+opção escolhida é o estado (this.state.value).
+
+3. Comparação geral
+Elemento	               HTML Puro	                React (controlado pelo estado)
+input	             <input type="text">	            <input type="text" value={estado} onChange={...} />
+textarea           	<textarea>Texto aqui</textarea>	    <textarea value={estado} onChange={...} />
+select	            <option selected>	                <select value={estado}>...</select>
+
+👉 Ou seja: no React todos os campos usam value + onChange para se tornarem controlados.
+
+
+
+
+
+
+
+
+
+Aula: Entendendo o Formulário de Reserva no React feito na aula:
+
+Esse código cria um formulário completo de reserva, onde cada campo 
+(nome, dia, horário, adicionais, observações) é controlado pelo React.
+
+1. Estado inicial do formulário
+const [form, setForm] = React.useState({
+  cliente: '',
+  dia: '',
+  horario: '',
+  wifi: false,
+  churrasqueira: false,
+  piscina: false,
+  obs: ''
+})
+
+
+➡ Aqui criamos um estado chamado form, que é um objeto com várias propriedades.
+Cada propriedade corresponde a um campo do formulário.
+. cliente → campo de texto do nome.
+. dia → select (segunda, terça, etc).
+. horario → radio button (manhã, tarde, noite).
+. wifi, churrasqueira, piscina → checkboxes (true/false).
+. obs → textarea (observações).
+
+Ou seja, todo o formulário está centralizado dentro de um único objeto no estado.
+
+
+
+2. Atualizando os valores (handleChange):
+const handleChange = (event) => {
+  const auxForm = { ...form }; 
+  auxForm[event.target.name] = event.target.type === "checkbox" 
+    ? event.target.checked 
+    : event.target.value;
+  setForm(auxForm);
+}
+
+
+O que acontece aqui?
+
+1. event → é o objeto que o navegador envia quando algo acontece no input.
+Ele contém várias informações do campo, como:
+. event.target.name → o nome do campo (cliente, dia, wifi, etc).
+. event.target.value → o valor digitado ou selecionado.
+. event.target.checked → se o checkbox está marcado ou não.
+
+2. const auxForm = { ...form } → copiamos o estado atual.
+Isso é necessário porque no React não podemos alterar o estado diretamente, precisamos criar uma nova cópia modificada.
+
+3. auxForm[event.target.name] = ... →
+
+. Usamos event.target.name para identificar qual campo foi alterado.
+. Se for um checkbox, usamos event.target.checked (true/false).
+. Caso contrário (input, select, textarea), usamos event.target.value.
+
+4. setForm(auxForm) → atualizamos o estado com a nova cópia.
+
+✅ Isso garante que cada digitação, clique ou seleção atualize o objeto form corretamente.
+
+3. Enviando o formulário
+const enviarForm = (e) => {
+  e.preventDefault(); // impede o refresh da página
+
+  console.log(form);  // mostra no console todos os dados do formulário
+
+  // aqui poderíamos:
+  // - mandar para o back-end via API
+  // - validar campos obrigatórios
+  // - exibir mensagens para o usuário
+}
+
+
+➡ Quando o usuário clica em “FAZER RESERVA”, essa função é chamada.
+
+. O preventDefault() impede o comportamento padrão (que seria recarregar a página).
+. Podemos usar o form (que já tem todos os valores salvos no estado) como quisermos.
+
+
+4. Como o JSX do formulário usa o handleChange:
+
+Cada campo chama handleChange no evento onChange.
+
+Exemplos:
+
+Input de texto (nome do cliente)
+<input 
+  onChange={handleChange} 
+  name="cliente" 
+  type="text" 
+  className="form-control" 
+  placeholder="Digite aqui" 
+  required 
+/>
+
+
+. O atributo name="cliente" conecta o input à chave cliente no estado.
+. Quando o usuário digita, handleChange atualiza form.cliente.
+
+Select (dia da semana)
+<select onChange={handleChange} name="dia" className="form-select" required>
+  <option value="">Selecione o dia</option>
+  <option value="segunda">Segunda</option>
+  ...
+</select>
+
+
+. O name="dia" conecta ao form.dia.
+. A opção escolhida é salva automaticamente no estado.
+
+
+Radio buttons (horário)
+<input 
+  onChange={handleChange} 
+  type="radio" 
+  name="horario" 
+  value="Manhã" 
+  required 
+/>
+
+
+. Todos têm o mesmo name="horario".
+. Assim, o React entende que eles atualizam a mesma chave (form.horario).
+. O value de cada radio indica se é "Manhã", "Tarde" ou "Noite".
+
+
+
+Checkboxes (adicionais)
+<input 
+  onChange={handleChange} 
+  name="wifi" 
+  type="checkbox" 
+/>
+
+. Cada checkbox tem um name diferente (wifi, churrasqueira, piscina).
+. O handleChange identifica que é um checkbox e guarda true ou false.
+
+
+Textarea (observações)
+<textarea 
+  onChange={handleChange} 
+  name="obs" 
+  placeholder="Deixe sua mensagem"
+></textarea>
+
+. O texto digitado vai direto para form.obs.
+
+
+
+5. Visualizando o estado em tempo real:
+
+Se descomentássemos o useEffect:
+
+React.useEffect(() => {
+  console.log(form);
+}, [form]);
+
+
+➡ Toda vez que o estado mudasse (o usuário digitou, marcou, trocou opção...), o objeto form seria exibido no console.
+Isso ajuda muito a entender como os campos estão sendo salvos no estado.
+
+
+
+6. Resumindo o fluxo
+
+. O usuário digita ou seleciona algo.
+. O onChange chama handleChange.
+. handleChange copia o estado, altera a propriedade correta e atualiza.
+. O estado form guarda todos os valores atuais do formulário.
+. No envio (enviarForm), temos tudo pronto para validar, mostrar ou enviar para o back-end.
+
+👉 Esse exemplo é muito bom porque mostra:
+
+. Como lidar com diferentes tipos de inputs (texto, select, radio, checkbox, textarea).
+. Como usar um objeto no estado para organizar todos os campos.
+. A importância do event para capturar name, value e checked.
+. Como transformar o formulário em um componente controlado.
+-->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendendo React</title>
+    <!-- REACT VERSION 17.0.2-->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div id="root"></div>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <script src="app.js" type="text/babel"></script>
+</body>
+
+</html>
