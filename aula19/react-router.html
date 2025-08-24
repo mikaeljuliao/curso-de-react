@@ -1,52 +1,165 @@
 <!--
-Aula 19 - React Router (Navegação entre páginas): 
-a aula de hije iremos aprender a navegar entre paginas.
-se tentamos navegar entre paginas da mesma forma que fazemos no html, veremos que isso não é possivel faer isso com o react puro, o react de fabrica entre aspas.
-isso é por que o react é uma biblioteca focada em spa, quer dizeensingle page aplication, e iso siginifica que é tud em uma pagina unica.a ideia principal do react era que tudo funcionasse e rodasse na mesma pagina.
+Aula 19 – React Router (Navegação entre Páginas)
+Por que precisamos do React Router?
+Nesta aula vamos aprender a navegar entre páginas no React.
+
+Se tentarmos navegar entre páginas da mesma forma que fazemos no HTML tradicional (com <a href="...">), 
+veremos que isso não funciona com o React “puro”.
+
+Isso acontece porque o React é uma SPA (Single Page Application), ou seja, uma aplicação de página única.
+A ideia do React é que tudo funcione dentro de uma única página, e os componentes sejam carregados dinamicamente, 
+sem precisar recarregar o navegador.
 
 
-mas quando trabalhamos com sites, sistemas, talvez precisamos ter varias paginas dentro do nosso projeto, e ai precisamos dessa opção e nessa aula vamos aprender mais sobre o reac router.
+Mas e se precisarmos de várias páginas?
+Em muitos casos, como em sites e sistemas, precisamos simular a navegação entre diferentes páginas.
+Para isso, usamos uma biblioteca chamada React Router, que nos permite controlar o roteamento da aplicação.
 
 
-(crie um titulo, e o texto que está acima, tente organizar de alguam forma com titulos tambem)
-o react router é uma biblioteca de terceiros que não vem junto do react que precisamos instalar para ter esse controle de rotas,no roteamento da aplicação pra navegaar entre paginas.
+O que é o React Router?
+O React Router é uma biblioteca de terceiros (não vem junto do React) que precisamos instalar.
+Ele é responsável por gerenciar as rotas e possibilitar a navegação entre páginas dentro de um projeto React.
 
 
-(crie um titulo)
-com nosso projeto zerado com o vite, criamos dentro do src, uma pasta chamada pages que sera as nossas paginas, e dentro dessa pasta pages,eu vou criar um componente chamado home.jsx,
-outro componente (pagina), chamada sobre.jsx , e outra pagina chamada contato.jsx.
-em todas elas eu uso o snipts rfc pra criar pra nos os codigos base.
+Estruturando o Projeto:
+Com nosso projeto zerado criado pelo Vite, vamos dentro da pasta src criar uma pasta chamada pages.
+Nela, criaremos os seguintes componentes (que serão nossas páginas):
+. Home.jsx
+. Sobre.jsx
+. Contato.jsx
+Em cada um desses arquivos podemos usar o snippet rfc (da extensão do React) para gerar o código base automaticamente.
 
-com isso teremos 3 paginas e iremos agora precisar de um sitemas de navegação de paginas.
-normalmente criarimos um link pra fazer essa navgeção, mas estamos trabalhando com componente, e o metodo tradicional não vai funcionar 
+Assim teremos 3 páginas prontas para usar.
+O próximo passo será criar o sistema de navegação.
 
 
 
-como instalar o react router:
-1 vou no gogle e pesquiso por react router e acesso o site https://reactrouter.com/
-2. mais especificamente na url https://reactrouter.com/6.30.1/start/tutorial#tutorial
-vai ter o tutorial com os comando pra instalação.
-apos isso eu vou procurar o comando npm install react-router-dom localforage match-sorter sort-by
-e colar no terminal e dar enter pra fazer a instalação (fale oque sta sendo instalado).
-observação importante: quando eu estava instalar pelo o terminal estava dando erro.
-eu estava com problema com o PowerShell do Windows, Ele está bloqueando a execução de 
-scripts por causa da política de segurança (ExecutionPolicy). Isso acontece bastante 
-quando você tenta rodar npm no PowerShell. 
-✅ Como resolver
-
-Você tem duas opções:
-
-1. Usar o CMD em vez do PowerShell
-
-Abra o Prompt de Comando (cmd.exe).
-
-Navegue até a pasta do seu projeto:
-cd C:\Users\nathanael\teste-react
-(pra acessar vou botar cd C:\e o caminho da pasta)
-E rode o comando:
+Instalando o React Router:
+1. Abra o navegador e acesse o site oficial: https://reactrouter.com/
+2. Vá até a seção de instalação (exemplo: tutorial versão 6.30.1)
+3. Copie e rode o comando abaixo no terminal do seu projeto:
 npm install react-router-dom localforage match-sorter sort-by
- 
-3. após isso
 
+
+O que está sendo instalado?
+. react-router-dom → Biblioteca principal para navegação no React.
+. localforage, match-sorter, sort-by → Dependências que o React Router utiliza para algumas 
+funcionalidades.
+
+
+
+⚠️ Possíveis Problemas na Instalação:
+Quando tentei instalar, tive um erro no PowerShell do Windows, porque ele bloqueia 
+a execução de scripts por causa da política de segurança (ExecutionPolicy).
+
+✅ Como resolver:
+1. Usar o CMD em vez do PowerShell
+. Abra o Prompt de Comando (cmd.exe).
+. Navegue até a pasta do seu projeto, exemplo:
+cd C:\Users\nathanael\teste-react
+
+. Rode novamente o comando:
+npm install react-router-dom localforage match-sorter sort-by
+
+
+2. Após a instalação, o terminal pode retornar algo como:
+2 vulnerabilities (1 moderate, 1 high)
+
+Isso acontece porque há incompatibilidades internas que o npm considera inseguras.
+Mas segundo a comunidade, não é realmente perigoso e pode ser ignorado em ambiente de estudo.
+
+
+
+Importando o React Router:
+Agora que está instalado, precisamos importar os recursos que vamos usar.
+No topo do componente (por exemplo, App.jsx), importamos:
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+. BrowserRouter → O componente “pai” que gerencia o roteamento.
+. Routes → Define o agrupamento das rotas.
+. Route → Define cada rota específica (qual caminho leva para qual componente).
+
+
+
+Criando a Primeira Rota:
+
+Exemplo em App.jsx:
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+
+Explicação:
+. path='/' → define a rota inicial (quando acessamos a raiz do projeto).
+. element={<Home />} → indica qual componente será renderizado nessa rota.
+  . Esse element={} é como se disséssemos: “quando o usuário acessar essa rota, mostre esse componente na tela”.
+  . O componente Home precisa estar importado no arquivo para funcionar.
+
+
+
+
+Criando Múltiplas Rotas:
+Podemos adicionar mais páginas (Sobre e Contato).
+
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import Sobre from './pages/Sobre'
+import Contato from './pages/Contato'
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/sobre' element={<Sobre />} />
+        <Route path='/contato' element={<Contato />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+export default App
+
+
+
+Explicação:
+. Quando acessamos /, renderiza o componente Home.
+. Quando acessamos /sobre, renderiza o componente Sobre.
+. Quando acessamos /contato, renderiza o componente Contato.
+
+
+
+Criando Links de Navegação:
+Agora que temos as rotas, podemos criar links para navegar entre elas.
+Exemplo no componente Sobre.jsx:
+
+import React from 'react'
+
+function Sobre() {
+  return (
+    <div>
+      <h1>Sobre</h1>
+      <a href='/'>Inicial</a>
+      <a href='/sobre'>Sobre</a>
+      <a href='/contato'>Contato</a>
+    </div>
+  )
+}
+
+export default Sobre
+
+
+
+O que está acontecendo aqui?
+. Cada <a href="..."> aponta para uma das rotas que criamos no App.jsx.
+. Assim conseguimos navegar entre as páginas sem precisar recarregar o 
+navegador inteiro, já que o React Router controla isso internamente.
 -->
 
