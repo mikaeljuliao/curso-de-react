@@ -1,0 +1,104 @@
+<!--
+Aula 18: Extensões e Dicas Importantes:
+Nesta aula vamos ver dicas para melhorar a produtividade na hora 
+de desenvolver projetos em React.
+
+
+Extensão recomendada no VS Code:
+No VS Code, se formos em Extensões e pesquisarmos por “React”, 
+vamos encontrar várias opções.
+A mais recomendada é:
+. ES7+ React/Redux/React-Native snippets
+
+O que ela faz?
+Essa extensão adiciona snippets (atalhos de código) no VS Code.
+
+👉 Snippets são pequenos atalhos que, ao digitarmos e pressionarmos 
+Enter, completam automaticamente um bloco de código.
+
+É parecido com o que já fazemos no HTML:
+. Quando digitamos ! e damos Enter, ele gera automaticamente toda 
+a estrutura básica do HTML.
+No React, essa extensão traz vários atalhos que economizam muito tempo.
+
+
+
+Dicas e Recursos dessa extensão:
+O professor mostrou alguns dos principais recursos que essa extensão proporciona.
+
+1. Nome de componentes com letra maiúscula
+. No React, é boa prática (e quase uma regra não escrita) sempre começar os componentes com letra maiúscula.
+. Não é que não vai funcionar se não usar, mas pode gerar inconsistências.
+. Além disso, alguns snippets só funcionam corretamente se o nome do componente começar com letra maiúscula.
+
+📌 Exemplo de arquivo:
+Test.jsx
+
+⚠️ Observação:
+O professor comentou que a extensão poderia forçar a primeira letra a ser maiúscula automaticamente, mas fiz o teste e isso não aconteceu.
+Mesmo assim, a dica continua válida: sempre nomeie seus componentes com letra maiúscula.
+
+
+
+2. Criando componentes rapidamente (rfc):
+Se criarmos um novo arquivo e digitarmos rfc + Enter, a extensão gera automaticamente um componente funcional:
+
+import React from 'react'
+
+export default function Teste() {
+  return (
+    <div>Teste</div>
+  )
+}
+
+
+Perceba que ele já:
+. Faz a importação do React,
+. Cria a função do componente,
+. E já adiciona um return com <div> dentro, pronto para uso.
+O nome do componente será o mesmo nome do arquivo que criamos.
+
+
+
+3. Importação rápida do React (imr):
+Outro atalho útil é digitar imr + Enter.
+
+Ele gera automaticamente:
+import React from 'react'
+
+
+
+4. Criando componente com rfce:
+
+Outro snippet muito usado é o rfce.
+Ele cria um componente funcional e exporta no final com export default.
+
+Exemplo:
+
+import React from 'react'
+
+function Teste() {
+  return (
+    <div>Teste</div>
+  )
+}
+
+export default Teste
+
+
+
+Outros recursos:
+
+Esses foram apenas alguns exemplos dos atalhos mais comuns.
+A extensão possui uma lista completa de snippets no repositório do GitHub oficial dela, que vale a pena conferir para explorar ainda mais.
+
+
+
+Conclusão:
+. Vimos a importância de usar extensões no VS Code para aumentar a produtividade.
+. A extensão ES7+ React/Redux/React-Native snippets é a principal recomendada.
+. Aprendemos alguns snippets úteis:
+    . rfc → cria um componente funcional com export default.
+    . imr → importa o React rapidamente.
+    . rfce → cria um componente funcional com export default separado.
+. Reforçamos a prática de sempre nomear componentes com letra maiúscula, tanto por convenção quanto para evitar problemas nos snippets.
