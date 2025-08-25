@@ -1,0 +1,12 @@
+body{
+    background-color: black;
+}
+
+.container-airbnb{
+    display: flex;
+    width: 100%;
+    padding-left: 80px;
+    padding-right: 80px;
+    margin-right: auto;
+    
+}
