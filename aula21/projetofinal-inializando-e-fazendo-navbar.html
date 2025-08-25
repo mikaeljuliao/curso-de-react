@@ -136,5 +136,30 @@ export default function NavBar() {
 
 
 
+(crie mini titulo ou titulo)
+outra coisa importante e que boa parte das vezes o css geral vai ser o css pro componente app.jsx que normalmente e o componente do conteudo.
+então se ele está na raiz do src e não dentro da pasta components, é aconselhavem criar o App.css na raiz tambe, esse será o css do componente app e eu
+importo ele no App.jsx dessa forma:
+//importar css geral
+import './App.css'
 
+
+
+(crie um titulo ou mini titulo)
+nessa aula, pra usarmos a imagem da logo, nos precisamos ter importado ela antes,
+nos salvamos na pasta assets, e no componente navbar, pra usar ela, importamos ela primeiro,
+e pra fazrr isso, primeiro usamos import, damos o nome que ela se chamada, usamos o from e em seguuida o caminho da imagem dentro de ''
+dessa forma:
+//importar imagem
+import logo from '../assets/airbnb.svg'
+
+e so depois que usamos ela no componente.
+como foi feito:
+ <div className="col-sm-6">
+<img className="logo" src={logo} alt="logo do site"/>
+  </div>
+
+o comportamento aqui foi diferente, no lugar de usarmos aspas simplis, usamos uma sintaxe jsx onde só precisamos passar o nome que demos no import dentro de {}.
+
+no nosso projeto precisamos ter feito dessa forma pra usar a imegm a logo (mas complete com outros exemplos que precisariamos fazer da mesma forma chat)
 -->
