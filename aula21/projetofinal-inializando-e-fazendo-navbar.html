@@ -1,0 +1,140 @@
+<!--
+
+Aula 21 - Projeto Final: Inicializando e Fazendo Navbar:
+com esse projeto iremos aprender varios conceitos, de componentes, estados, erenaças, como passar um componente pra outrp, props, e td qur precisamospra fazer um projeto real
+
+
+fizemos todo o passo a passo, instalamos tudo e criamos a pasta na propria pasta do curso de react, chamada de projeto-final, onde tera o nosso projeto react.
+não vou da o passo a passo da crição, mas instalamos as dependencias e o react ruter.
+
+
+
+se eu quiser ver em tempo real no clular a onstrução com o vite, isso tambem é possivel com o vite, iremos aprender a compartilhar nosa tela com o vite, e muito pra
+poder acompanhar o formato mobile pelo o celular.
+
+
+como compartilhar a tela do projeto:
+para fazer isso, repare que ao da o comando npm run dev,
+ira retornar:
+ ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+
+e percebe que ai diz que se usar --host, ele vai expor na rede o nosso projeto.
+entao o proximo passo e ir no packgen.json e ir em script , e la vai ter um objeto chamado dev,
+eu dou espaço  no valor que ja tem la e coloco esse --host.
+
+
+apos isso, se eu der npm run dev de novo, vai gerar outros tipos de informação.
+exemplo:
+➜  Local:   http://localhost:5173/
+➜  Network: http://192.168.1.108:5173/
+➜  press h + enter to show help
+
+
+agora ele gerou uma nova opção chamada Network, e esse Network ele me passou o ip da rede, e a porta que eu poso esta entrando, acessando o celular.
+
+então para acessar no celular, eu vou no navgeador do celular e colo esse link que me retornou do Network,
+ http://192.168.1.108:5173/
+
+
+apos iso, eu ja posso esta vedno em tempo real oque ta acontecendo no nosso projeto.
+
+
+
+
+
+
+
+
+(crie um titulo)
+alem disso, tambem instalamos o bootstrap no projeto, optmamos por não usar via cdm e sim instala via npm mesmo.
+e pra isso iremos acessar o site https://getbootstrap.com/ e logo no incio vai ter o link npm i bootstrap@5.3.7,
+iremos copiar ele e passamos o comando no terminal ou no cmd pra instalr o bootstrap.
+
+
+com o bootstrap instalado, pra importar ele passamos o import e 'bootstrap/dist/css/bootstrap.css'
+exemplo:
+import 'bootstrap/dist/css/bootstrap.css'
+
+esse é o caminho pra chegar no css que agente instalou. (explique melhor esse caminho)
+se formos no noe_module, iremos encontrar uma pasta chamada bootstrap, dentro dela vai ter uma chamada dist, e dentro dela vai ter outra chamada css, e dentro de css vai ter o arquivo que agente importou que é o bootstrap.css.
+e tambem vamos importar o bootstrap normal.
+exemplo:
+import 'bootstrap/dist/js/bootstrap'
+
+
+(crie um titulo)
+
+uma forma de verificarmos se se está funcionando e ir la no site oficial, ir na seção de Docs, no canto direito descer a´te componente e pegar qualquer alerta e copiar e colar no nosso componente de conteudo.
+por exemplo:
+import { useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap'
+function App() {
+  const [count, setCount] = useState(0)
+
+  return (
+   <div class="alert alert-secondary" role="alert">
+  A simple secondary alert—check it out!
+</div>
+  )
+}
+
+export default App
+
+nesse caso está funcionando! (der uma breve explicação do que foi feito e oque ta acontecendo nesse codigo!)
+
+
+
+
+
+(crie um titulo)
+a primeira coisa que devemos fzer ao criar um projeto, e imaginar toda a separação dos componentes,toda a separação das coisas, oque vai ser cada componente.
+então no geral, na hora de montar a estrutura do projeto, eu posso analisar o design, onde eu posso criar com ferramentas como pothoshop, figma, olhando em algum site, como (cite duas referencias), ou sites com o designe ja disponibilizado.
+e com isso mentalizar como vai ser a separação desses componentes que vou está trabalhando.
+
+
+
+
+(crie um titulo)
+os componentes que vamos está trabalhando é p comonente navBar, que vai ser toda a parte de cima, depois vou ter outro componente chamado cateorias, que vai ser toda as categorias do nosso site, chale e etc, e ainda dentro de categoria eu ainda vou ter outro componente que vou chamar de filter,
+ que é o filtro, que vai ser responsavel pelo o botão de abrir o modal com as informações de filtragem,
+ e abaixo vamos ter o componentes de cards, que vai ser cada um dos cards colocados na pagina, e tambem vamos ter um componente que quase nunca carrega que empresas grandes como youtube usam que é o placeholder(der uma explicação do que seja) e vamos chamar esse componente de esqueletao, por conta que ele é carregado antes do conteudo
+
+
+
+
+(crie um titulp)
+agora pra melhor organização, alem de criar uma pasta componente pros componentes, tambem dentro de components devo criar uma pasta chamada css só para os arquivos css que irei criar para cada componente.
+
+(ai voce da um exemplo dos arquivos,
+exemplo:
+src:
+     components:
+        css:
+        NavBar.css
+     Navbar.jsx
+     
+so que ai voce faz melhor a explicação )
+
+
+(crie mini titulo ou titulo)
+uma dica de produtividade é usar o split no vs coude, ele divide a tela em dois e permite que eu mexa no componente e no css desse componente por exemplo,
+e pra fazer isso e so clicar nos dois arquivos e deixar aberto, e la no canto superior direito vai ter uma opção que parece um livrinho, clicando nele ja ativa essa função,
+e pra melhorar mais ainda, posso usar o ctrl + b pra sumir com as pastar e ctrl + caso queira que volte.
+
+e com o css do compnente e so importar dentro do componente, por exemplo:
+estou dentro do componente NavBar.jsx, e la em cima eu impoorto:
+import React from "react";
+import './css/NavBar.css'
+export default function NavBar() {
+    return(
+        <div className="vermelho">NavBar</div>
+    )
+}
+
+
+
+
+-->
