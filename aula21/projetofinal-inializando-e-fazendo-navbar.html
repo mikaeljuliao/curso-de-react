@@ -162,4 +162,60 @@ como foi feito:
 o comportamento aqui foi diferente, no lugar de usarmos aspas simplis, usamos uma sintaxe jsx onde só precisamos passar o nome que demos no import dentro de {}.
 
 no nosso projeto precisamos ter feito dessa forma pra usar a imegm a logo (mas complete com outros exemplos que precisariamos fazer da mesma forma chat)
+
+
+
+(crie um titulo)
+no nosso projeto tambem iremos precisar alguns icones, e não iremos fazer uso de cdn, iremos instalar o material do material design icons, 
+esse é o site https://pictogrammers.com/library/mdi/ , vou em dowload e procuro o npm pra instalar, no caso dessa aula eu não encontrei,
+mas o comando é:
+npm install @mdi/font
+
+apos instalar iremos importar
+(crie mini titulo)
+la no nosso ap onde estamos fazendo a importação geral das coisas, iremos importar o material designe icons.
+exemplo:
+import '@mdi/font/css/materialdesignicons.css'
+
+pta sabermos esse caminho é so olhar no node_modules (ai voce da um exemplo de como está no node_modules de acordo com o caminho que passei)
+
+(crie outro minin titulo ou titulo)
+e assim ficou nosso icone dentro do componente navbar:
+ <a href="#" className="icon-nav"><i className="mdi mdi-web"></i></a>
+
+pra colocar esse icon, eu preciso passar o clasname e mid espaço mid- e o nome do icone la do site que eu quero, que nesse caso foi web 
+
+
+
+
+
+
+
+(crie um titulo)
+( 
+chat, na aula de hoje nos fizemos tipo um menuzinho com bootstrap sabe, e ficou muito foda, e tem um detlahe que eu achei muito massa e queria poder
+replicar em meus projetos normais sem bootstrap.
+
+               <div className="dropdown ms-2">
+  <a className="button-login dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <i className="fs-5 mdi mdi-menu ps-2 me-1"></i>
+  <i className="fs-2 position-relative mdi mdi-account-circle pe-2">
+      <span class="position-absolute top-0 start-50  badge border border-light rounded-circle bg-danger p-2"><span class="visually-hidden">unread messages</span></span>
+  </i>
+  </a>
+
+  <ul className="dropdown-menu mt-2 py-3 border-0 shadow">
+    <li><a className="dropdown-item p-2 px-3" href="#">cadastre-se</a></li>
+    <li><a className="dropdown-item p-2 px-3" href="#">Entrar</a></li>
+    <li><hr className="dropdown-divider"/></li>
+    <li><a className="dropdown-item p-2 px-3" href="#">Hospede em sua acomodação </a></li>
+     <li><a className="dropdown-item p-2 px-3" href="#">Hospede uma experiência </a></li>
+       <li><a className="dropdown-item p-2 px-3" href="#">Ajuda </a></li>
+  </ul>
+</div>
+
+percesebsse essa divisioria com o  <li><hr className="dropdown-divider"/></li> ,
+meio que aconteceu uma divisoria com um efeito bem legal, e eu queria saber como fazer em projetos normais, queria que voce ensinasse
+e desse até um exemplo real 
+)
 -->

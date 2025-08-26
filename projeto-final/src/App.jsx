@@ -2,6 +2,9 @@ import { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap'
 
+
+//importar material design icons
+import '@mdi/font/css/materialdesignicons.css'
 //importar css geral
 import './App.css'
 
