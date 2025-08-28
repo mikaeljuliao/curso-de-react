@@ -56,7 +56,9 @@ export default function Categorias() {
                     </Swiper>
                 </div>
                 <div className='col-sm-1'>
-                    Aqui filtro
+                    <button className='' data-bs-toggle='modal' data-bs-target='#filterModal'>
+                        Filtros
+                    </button>
                 </div>
             </div>
         </div>
