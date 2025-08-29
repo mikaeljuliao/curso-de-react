@@ -104,9 +104,512 @@ function App() {
   )
 }
 
-              
-              
- -->
+       
+
+pronto, com o componente modal ja funcionando ao clicar, (chat, não sei pq funciona com o botão ao clicar, acredito que seja por que esteja ligado ao id,
+mas deie uma explicação dando cntinuidade oque falei, 'ja funcionado ao clicar' ai voce continua, estando ligado balblabla e suas explicações )
+ 
+
+agora só precisamos dar o conteudo a esse modal.
+
+(crie um titulo)
+ao prencher o conteudo do modal, tera uma parte onde iremos precisar criar um componente 
+pro price slics, basicamente é a barra que movimentamos que vai filtrar os valores de preços, 
+e é ideial criamos um componente separado pois mantem uma maior organização e controle das manipualção das propriedades,
+por que vamos ter que saber qual é a categoria que ele está filteando, qual a faixa de preços, valor minimo e valor maximo,e tambem 
+quando criamos um componente com react, o legal é que quando temos ele prontos, possamos usar em diversos outtos projetos tambem,e alem disso,
+essa questão de prics slics e uma das coisas mais usadas em filtragem,é um tipo de filtro muito usado como ecormece, e filtros que precisam filtrar valores.
+(prices é preço em ingles, e slider e como se fosse deslizar)
+
+então criamos um componente dentro da pasta components chamado de priceSlier.jsx
+
+
+(crie um mini titulo
+com o componente criado, agora vou explicar sobre, esse ricslideer e como se fosse uma composião de 4 elementos,
+nos temos o slider, e como se fosse a barra cinza mais clara(disponibilizei a aimegm certinho na pasta de imagem),
+que é onde nossos itens vão poder deslizar, agente vai ter tambem, uma barra de progresso, vamos chamar de progress, que é a barrinha mais escura,
+é a barrinha que vai acompanhando conforme os movmentos das bolinhas, e as duas bolinhas que movimentamos na verdade são campos input do tipo renge,
+e como se fosse aquelas de aumentar e diminuir volumes, pra puxar pro lado, mas so que com css modificado, e teremos o range minimo e o range maximo, e tudo isso alinhado com
+o css pra parecer uma coisa só, so  que é uma montagem, vamos colocar varios itens dentro usando css pra fazer esse efeito,
+e fazendo o uso do useStae, agente sabendo qual é o valor minimo, qual o valor maximo, nos podemos fazer com que o componente se comporte dessa forma confoem nos mvimenta, a barra de progresso acompanha esse movimenta, e tambem
+posso alimentar esses campinhinhos de preços minimos e preços maximos,
+então vamos começar fazendo a pasta estetica.
+
+(crie mini titul)
+então começamos importando o css de slider no componente:
+import './.css/priceSlider.css'
+
+e em seguida damos uma classe chamada slider pra div do nosso componente,
+esse slier será a parte cinza que terá o deslizamento total dos nossos itens
+exemplo:
+import React from 'react'
+
+import './.css/priceSlider.css'
+export default function priceSlider() {
+  return (
+    <div>
+      <div className='slider'> </div>
+</div>
+  )
+}
+
+o seu ccs é:
+.slider{
+    display: flex;
+    position: relative;
+    height: 5px;
+    background: #ddd;
+    border-radius: 5px;
+}
+isso cria uma barra deslizante um pouco cinza. 
+(explique melhor sobre esse codigo css)    
+
+
+e dentro da div slider teremos outra div que sera a de progresso e 
+a classse se chamara progress.
+desa forma:
+export default function priceSlider() {
+  return (
+    <div>
+      <div className='slider'>
+        <div className='progress'> </div>
+        
+      </div>
+</div>
+  )
+}
+
+
+essa barra de progresso é a responsavel por fazer com que fique mais escuro ou mais claro,
+mas isso sera feito de forma dinamica e ja chegamos la.
+
+
+e o seu css é:
+.slider .progress{
+    height: 100%;
+    position: absolute;
+    /* left:5%;
+    right:30%; */
+    background: #464646;
+}
+
+oque faz a nossa barra se movimentar é esse position absolute,
+por exemplo, se eu deixasse a sua esquerda de 5%, ele ja não iria ficar colado na esquerda,
+e agora com esse efeito, a barra de progreso fica mais escura.
+(explique melhor esse codigo css tambem chat)
+
+
+
+agora iremos precisar fazer as bolinhas que o usuario vai fazer a movimentação.
+e pra isso vamos usar um truque muito interessante que é com um tipo de input 
+chamado range, e pra isso criamos uma div dentro de slider com a classe se chamada range-input,
+e essa div sera um container que tera nossos campos input, e dentro dela teremos dois campos input
+do type range. um input sera responsavel pelo o valor minim e o outro 
+sera pelo o valor maximo, e iremos dar um id diferente pros dois.
+exemplo do codigo:
+export default function priceSlider() {
+  return (
+    <div>
+      <div className='slider'>
+        <div className='progress'> </div>
+         <div className='range-input'>
+         <input id='rangeMin' type='range' />  
+         <input id='rangeMax' type='range' />  
+        </div>
+      </div>
+</div>
+  )
+}
+
+
+
+e nos iremos usar uma tecnica onde so usamos as bolinhas desse campo, essa tecnica oculta a barra e fica so com a bolinha de movimentação.
+
+tecnica css:
+
+.range-input{
+    position: relative;
+}
+
+nos iremos dar o position realtive pro componente pai 
+pra podermos manipulas os input com position abslute em relalação
+a a ele.
+
+.range-input input{
+    width: 100%;
+    position: absolute;
+    height: 5px;
+    top:-5px;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+os campos do tipo input tera uma postion abslute, fazendo
+com que os dois campos ja fiquem um em cima do outro no mesmo lugar,
+nos tiramos o seu beckground com background none.
+nos chamaos o -webkit-appearance: none; o -webkit-appearance é um atributo que força 
+o navegador tirar a aparencia padrão do nosso campo, e colocamos como none, fazendo com que suma com as barrinhas.
+-moz-appearance: none; esse é a mesma coisa pro outrom, so que esse é pro firefox,
+o outro e pro chrome, no safare e etc.
+e com isso ficamos so com as bolinhas.
+tambem passmmaos que eles terão uma largura de 100%, para que vão até o final.
+para a alinha dentro da barrinha do slider (tava um pouco abaixo),
+usamos height: 5px ,mesma aulturua do nosso slider, 
+e passamos que o top do postion absolute seja -5px, fazendo com que fique exatamente na linha do slider.
+tambem usamos outro atributo chamado pointer-events: none;
+quando usamos esse  -moz-appearance: como none, agente proibe do usuario podr movimentar essas bolinhas,
+por que oque vai fazer essas bolinhas movimentaram será a nossa barra de progresso,
+então conforme nossa barra d eprogresso for deslizando, as blinhas elas vão deslizando tambem.
+
+
+
+
+(crie um mini titulo)
+agora iremos modificar a aparencia dessaas bolinhas,
+passando no css o input com o seletor com o type do tipo range, e usamos um seletor chamado
+webkit-slider-thumb e {}, isso e pra trabalhamos apenas com as bolinhas
+exemplo css:
+
+input[type="range"]::-webkit-slider-thumb{
+    width: 30px;
+    height: 30px;
+    background: white;
+    border:1px solid #ccc;
+    border-radius:50%;
+    box-shadow: 0 0 6px rgba(0,0,0, 0.05);
+    pointer-events: auto;
+    -webkit-appearance: none;
+}
+
+passamos que ela tera uma largura de 30px, widht:30px.
+tera tambem uma altura de 30px, um   height: 30px;.
+passamos que ela sera branca, background: white;.
+ -webkit-appearance: none; passamos ele novamente por que 
+ se não passamos algunas alterações como o fundo branco mão ira 
+ aparecer por que ainda contiava com o adrão padronizado, então tiramos o seu padrão.
+ colocamos uma borda de 1px solida um pouco clarinha pra emchergamos,
+border:1px solid #ccc;.
+e usmos border radius pra dar uma arrendondada, border-radius:50%;
+e colocamos uma sobrinha com bx-shadow,  box-shadow: 0 0 6px rgba(0,0,0, 0.05);
+e agora colocamos o pointer-events que desativamos no nosso input do tipo range,
+pra quando a pessoa for mexer nele, dai sim ela poder fazer alteração,
+ pointer-events: auto; está como automatico para que a pessoa possa fazer o movimento das bolinhas
+
+
+usamos o uso do webkit-slider-thumb que é para o funcionamento de vageadores do tipo webkit, 
+que seria o chrome, no ege, no safare.
+
+
+
+e copiamos todo o codigo e determinamos tambem que irá funcionar no firefox passando
+no lugar de webkit-slider-thumb por moz-range-thumb
+exemplo css:
+input[type="range"]::-moz-range-thumb{
+    width: 30px;
+    height: 30px;
+    background: white;
+    border:1px solid #ccc;
+    border-radius:50%;
+    box-shadow: 0 0 6px rgba(0,0,0, 0.05);
+    pointer-events: auto;
+    -moz-appearance: none;
+}
+e o uncio detalhe é que trocamos tambem no codigo 
+por -moz-appearance: none;
+
+
+
+e agora  parte estetica da movimentação do slider já esta funcionando.
+
+
+
+
+
+
+
+(crie um mini titulo).
+agora iremos fazer a parte do preço minimo e do preço maximo:
+
+para fazer isso iremos fazer no nosso componente de priceSlider ainda, logo
+abaixo do container dos input range, iremos criar esses itens, criamos uma div com a clas row 
+e criamos duas duas colunas com duas div, e a primeira div tera um labem com a classe text-muted 
+(vai ficar tipo um cinzinha, bootstrap) e dentro desse label colocamos 
+o preço minimo, e em bxio do label usamos inputs grups do bootstrap (pegamos la do ste oficial o input)
+exemplo de como ficou o preço minimo:
+<div className='row mt-4'>
+                <div className='col'>
+                    <label className='text-muted'>preço mínimo</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">R$</span>
+                        <input id="inputMin" type="text" class="form-control" placeholder="Min" />
+                    </div>
+                </div>
+
+
+agora só basta copiar o conteudo dessa div input e colarmos na div de valor maximo.
+
+exemplo de preço maximo:
+   <div className='col'>
+                    <label className='text-muted'>preço máximo</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">R$</span>
+                        <input id="inputMax" type="text" class="form-control" placeholder="Max" />
+                    </div>
+                </div>
+
+a unica diferença é que trocamos o valor do id para Max o texto do labem para preço máximo,
+e o placeholder para Max                
+
+
+
+
+(crie um mini titulo ou um titulo).
+essa foi toda a parte de estilização do nosso filtro,toda a estetica agora iremos para  aparte 
+logica e fazer com que realmente funcione.
+
+
+(crie um titulo):
+para que possamos ter o controle dos valores dos nossos campos, iremos fazer o
+uso do useState, o estado do react, para sabermos qual é o valor mino e o valor maximo, e tambem qual é o posicionamento da nossa barra de progresso,
+que fazer precisar conforme for deslizando a bolinha, sabermos a porcentagm de acordo do preço minomo e ´preço maximo, que ela deve deslizar dentro do nosso slider
+que é esse cinza mais claro.
+
+iremos fazer algunas alterações no nosso campo tipo range pois
+ele tem algunas atributos que vão ser muito importante na hora de fazermos o funcionamento 
+do nosso projeto,são atributos que ja vem nesse tipo de campo input.
+ o primeiro é o valor minimo, o 'min=' e o outro atributo é o max= então quer dizer, o nosso
+ range pode deslizar entre o valor minimo e o valor maximo e temps outro atributo chamado value=. que é quando 
+ que o nosso range está no momento e temos outro atributo chamado step= que é quantos passos esse nosso range pode dar,
+então se eu colocar step='1', ele ira fazer o mvimento de 1 a 1.
+
+no momento, esses valores serao esses:
+<input id='rangeMin' type='range' min='50' max='2000' step='1' o value nao tem pq sera definido de forma dinamica.
+apesar de ter esses valores inicalmente, no final será tudo defenido de forma dinamica.
+esses atributos do tipo range, iremos querer que seja determinado pelo o nosso componente priceslider, então iremos fazer o uso das propriedades, dos props.
+então la no modalFilter,onde temos o priceSlider sendo redenrizado nos iremos passar nos props como essas propriedades devem se comportar.
+entao colocamos dessa forma:
+<div className="modal-body">
+  <section className='px-2 mb-4 border-bottom'>
+  <span className='fs-4 fw-bold'>Faixa de Preço</span>
+  <p className='text-muted'>O preço médio por noite é de R$ 730</p>
+  <PriceSlider min={50} max={2000} step={1} />
+  </section>
+</div>
+
+então passamos no nosso componente esses props, (detlahe, nos prps eu posso dar o nome que eu quiser, não precisa ser o mesmo do campo input
+, só coocamos o mesmo pra seguir um padrçao mesmo),
+e la no componente princeSlider nos recemos esses props, passamos na função props,
+exemplo:
+export default function priceSlider(props) {
+(e aqui está o conteudo do filtro slider)
+}
+
+e agora fazemos com que os input receba os valores de forma dincamica:
+passaos em cada propriedade dentro da sintaxe jsx props. e o valor do props.
+exemplo feito:
+<div className='range-input'>
+<input id='rangeMin' type="range" min={props.min} max={props.max} step={props.step} />
+<input id='rangeMax' type="range" min={props.min} max={props.max} step={props.step} />
+</div>
+
+dessa forma estamos pegando os valores de forma dinamica 
+via propriedade com os props que determinamos os valores.
+
+
+
+(crie um titulo)
+
+agora iremos fazer pra saber quais são s valores minimo e os valores maximos com o useState
+e tambem vamos usar um pouco o useEffect.
+primeiro iremos fazer a importação dos dois dentro do nosso componente priceSlider.
+exemplo:
+import { useState, useEffect } from 'react';
+
+
+
+e agora iremos criar eles 
+dentro do componente, antes de return().
+criamos qual é o preço min e passamos que ele vai inicializar com o props.min.
+dessa forma:
+const [min, setMin] = useState(props.min);
+
+e agora criamos um estado para o valor maximo e fazemos a mesma coisa,
+e passamos que ele irá receber a props.max.
+exemplo:
+ const [min, setMin] = useState(props.min);
+    const [max, setMax] = useState(props.max);
+
+
+
+e tambem iremos precisar fazer com que nossa barra de progresso se movimente,
+então iremos precisar criar uns estados pra sabermos em quantos % ela vai estár deslocada.
+então o primeiro estado sera o let e passamos que ele vai cabecar como 0%, colocamos como string mesmo
+exemplo:
+const [left, setLeft] = useState('0%');
+
+e criamos um estado para a direita tambem que começarar em 0%
+exemplo:
+const [left, setLeft] = useState('0%');
+const [right, setRight] = useState('0%');
+
+e esses estados será usada para definir quais sao os posicionamentos do css da nossa barra de progresso.
+então ao invez de usar um valor definido no css do position abslolute, iremos fazer isso de forma dinamica no nosso codigo,
+no retorno da montagem do nosso componente.
+
+
+então eu vou fazer um estilo incorporado na div com className progress,
+e pra fazer um estilo incorporado abrimos a chaves do jsx e depois do css, assim, {{}},
+e aqui definimos que a propriedade left do css vai recebero valor do left que é o nosso estado left, e passamos que o right, que seria o position right,
+vai receber o estado da direita .
+exemplo de como ficou:
+<div className='slider'>
+<div style={{ left: left, right: right }} className='progress'></div>
+</div>
+
+dessa forma a barra irá começar na posição 0 dos dois lados.
+
+
+
+(crie mini titulo)
+agora iremos determinar o valor dos nossos range.
+entao iremos passar que o valor dos inputs será o estado do valor min, e o estado do valor max.
+exemplo usado:
+<input id='rangeMin' type="range" min={props.min} max={props.max} value={min} step={props.step} />
+<input id='rangeMax' type="range" min={props.min} max={props.max} value={max} step={props.step} />
+
+então dessa forma o min se posicioa no começo, o valor inicial, e o maximo la no final com seu valor inicial.
+
+
+(crie um titulo)
+apesr de colocamos o vaor minimo e maximo agora, aquele valor se torna apenas leitura quando se trabalha com react (professor disse com essas palavras mas não sei oque siginificou, explica)
+e as bolinhas não irão se movimentar, oque vai fazer essas bolinhas se movmentar, vai ser a abrra de progresso, que conforme for se mvimentando, vai arrastando essa bolinha.
+
+para isso criamos um eventos chamado onChange (onChange siginifca quando ao mudar) e demtro da chamada do evento no input,
+iremos chamar a função changeRngeMIn para o input de valor minimo.
+exempo:
+<input id='rangeMin' onChange={changeRangeMin} type="range" min={props.min} max={props.max} value={min} step={props.step} />
+
+e essa função vai ser a responsavel por 
+
+
+
+(crie um mini titulo)
+agora vamos explicar sobre essa função changeRngeMIn.
+nos criamos a função changeRngeMIn e recuperamos o evento do nosso campo input com (e) como parametro
+uma coisa interresante que podemos nessa função pra entendr oque ta acontecendo.
+se colocamos um console.log o valor que está vindo desse campinho, então vamos passando dentro do console,
+o e que e o nosso campo input que está sendo modificado,targht.value.
+exemplo:
+function changeRangeMin(e){
+   console.log(e.targth.value);
+}
+e formos la na ro range do valor minimo e movimentar, abrindo o console iremos perceber que o valor desse input 
+tambem será mudado  , ele está modificando o valor o nosso range, apesar da bolinha não está se movimentando, ele acompanha o valor,
+então ele começa em 50, e conforme for puxando pro ado, no console sera mostrado que ele vai auemtando
+
+
+
+(crie um mini titulo)
+então oque iremos pedir pra setar o nosso minimo com o nosso e.targth.value e a unica coisa que iremos fazer antes
+e converter esse texto para inteiro, só para garantir que seja um numero.
+exemplo: 
+setMin(parseInt(e.target.value));
+
+então agora cada vez que for arrastando, ele ira alterar o nosso minimo.
+
+
+
+e quando temos uma alteração do nosso estado, nos temos o uso do nosso useEffect, então passamos 
+qual sera o efeito colateral quando o estado for alterado.
+
+então iremos passar um useEffect com uma arrown funtion e passamos que oque vai acontecer
+se oque foi modificado foi o min, dessa forma criamos um useEffect que sera ativado qaundo setamos o minimo com o valor que ta vindo do campo.
+exemplo do useEffect usado:
+ useEffect(() => {
+        if (min == props.min) {
+            document.getElementById('inputMin').value = props.min;
+        } else {
+            document.getElementById('inputMin').value = min;
+        }
+}, [min]);
+
+(faça uma explicação sobre esse useEffect, explique oque el ta fazendo e oque ta acontecendo)
+
+
+
+dessa forma agora o valor já é atualizado conforme movimentamos o valor minimo, 
+porem ainda precisamos fazer com qe a barra de progresso acompanhe, a parte pretinha tem que acompanhar o movimento
+da bolinha.
+
+(crie um mini titulo)
+para fazer isso, passamos dentro da função changeRangeMin onde sendo essa a função responsavel pela a 
+modificação da bolinha, quando movimentamos o minimo, nos vamos fazer o seguinte:
+
+     function changeRangeMin(e) {
+        setMin(parseInt(e.target.value));
+        if (min == props.min) {
+            setLeft("0%");
+        } else {
+            var totalBarra = props.max - props.min;
+            var qtsSteps = min - props.min;
+
+            setLeft(((qtsSteps * 100) / totalBarra) + "%");
+        }
+    }
+
+
+eexplicação:
+nos passamos que se o valor do minimo for igual igual a props.min, que é o valor minimo,
+agente vai setar a esquerda, usando o setLeft, sera 0%, então se o minimo
+estiver com o valor minimo 50, a esquerda será zerada.
+
+se não for o valor igual 50, vamos ter que fazer um calculo pra saber quando a
+nossa barra vai ter que se deslocar em porcentagem.
+racicionando, a barra tem 100%, e 100% tem o valor de 2 mil, mas o 100% dessa bara comeã com o preço minimo de 50
+então só precisamos passar na variavel, valor total o valor maximo - o valor minimo, e o resultado dá 1950,
+2 mil - 50 da isso, e esse será o valor total de movimento que podemos da.
+na segunda variavel calculamos qauntos passos que pode ser dados, será o valor min - o props min
+
+e em seguida passamos no setLeft() vamos passar quantos steps ainda temos vezes 100 divido pelo o total da barra concatenado com %
+
+
+dessa forma a nossa barra ja acompanha o deslize do nosso slider 
+
+
+
+(crie um mini titulo)
+e agora copiamos tudo e e coloamos para fazer o maximo,
+a unica diferenã é que iremos trocar tudo que tem min para max e a variavel qtsSteps nos invertemos.
+dessa forma:
+function changeRangeMax(e) {
+        setMax(parseInt(e.target.value));
+        if (max == props.max) {
+            setRight("0%");
+        } else {
+            var totalBarra = props.max - props.min;
+            var qtsSteps = props.max - max;
+
+            setRight(((qtsSteps * 100) / totalBarra) + "%");
+        }
+    }
+
+
+
+
+    useEffect(() => {
+        if (max == props.max) {
+            document.getElementById('inputMax').value = props.max + "+";
+        } else {
+            document.getElementById('inputMax').value = max;
+        }
+    }, [max]);
+ 
+e fazemos a chamada do evento onChange da função changeRangeMx no inout de valor max.
+exemplo:
+ <input id='rangeMax' onChange={changeRangeMax} type="range" min={props.min} max={props.max} value={max} step={props.step} />
+-->
 
 
 

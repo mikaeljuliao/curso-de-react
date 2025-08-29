@@ -12,6 +12,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Categorias from './components/Categorias';
 import ModalFilter from './components/ModalFilter';
+
 function App() {
 
   return (
