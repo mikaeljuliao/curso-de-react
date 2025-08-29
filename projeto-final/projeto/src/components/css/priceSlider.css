@@ -1,0 +1,8 @@
+.slider{
+    display: flex;
+    position: relative;
+    height: 5px;
+    background: #bb4040;
+    border-radius: 5px;
+   
+}

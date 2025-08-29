@@ -12,4 +12,102 @@ dessa forma:
                         Filtros
                     </button>
                 </div>
--->
+
+
+
+
+(crie titulo ou mini titulo)
+tambem usamos um icone pro filtro, usamos a tag i para isso!
+exemplo usado:
+   <button className='btn btn-filtro d-flex float-end' data-bs-toggle='modal' data-bs-target='#filterModal'>
+                       <i className='mdi mdi-filter-variant'></i>
+                       filtro
+                    </button>
+ esse icone pegamos la do design icons como foi explicado anteriormente.
+ 
+ 
+   
+ (crie um mini titulo)
+ para o modal do filtro aparecer, nos criamos um componente chamado ModalFilter.jsx que irá conter
+ um modal com o bootstrap, e quando o botão for clicado, exibirar esse componente.
+ o modal nos pegamos la na parte de documento do bootrstrap, na parte de modal, e o escolhido foi esse:
+
+exemplo: 
+// Modal 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+e o nosso componente do modal ficou dessa forma:
+import React from 'react'
+
+export default function ModalFilter() {
+  return (
+    <div className="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+        ...
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+  )
+}
+
+
+um detalhe importante:
+na div principal  <div className="modal fade" id="#filterModal"
+eu dei o id dela de filterModal, 
+mesmo nome que dei pro data-bs-target do botão do modal com o botstrap,
+ <button className='btn btn-filtro d-flex float-end' data-bs-toggle='modal' data-bs-target='#filterModal'>
+
+
+
+agora pra esse modal funcionar, normalmente iriamos importar ele no componente de categoria, mas 
+iremos importar no nosso componente principal app, e em seguida fazer com que seja exibido, dessa forma:
+//importar modal de filtro
+import ModalFilter from './components/ModalFilter';
+
+e agora so precisamos retornar esse componente no nosso componente app,
+dessa forma:
+function App() {
+  return (
+    <div>
+      <Navbar />
+      <Categorias />
+      <ModalFilter />
+    </div>
+  )
+}
+
+              
+              
+ -->
+
+
+
+

@@ -11,13 +11,14 @@ import './App.css';
 //Importar Components
 import Navbar from './components/Navbar';
 import Categorias from './components/Categorias';
-
+import ModalFilter from './components/ModalFilter';
 function App() {
 
   return (
     <div>
       <Navbar />
       <Categorias />
+      <ModalFilter />
     </div>
   )
 }
