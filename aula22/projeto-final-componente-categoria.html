@@ -1,138 +1,184 @@
 <!--
- Aula 22 - Projeto Final Componente Categoria:
-(crie titulo)
- nessa aula, iremos fazer o proximo componente, o componente de categorias e tambem o filtro,
- na questão das categorias eles tem varios pontos interessantes, a primeira e que as categorias serão mostradas de forma dinamica onde vamos te os dados
- e iremos pedir pra que gere cada item das categorias, tambem iremos fazer alguns efeitos esteticos onde quando for selecionado ira ter um efeito um pouoc mais escuro,
- e tambem iremos fazer com que funcione como um swaip, por exemplo com 14 items por folhas, passando dos 14, e como se passe prras roximas 14 (expliqe melhor esse xemplo do swap) 
- e o botão do filtro quando clicado ele deverar abrir um modal com as filtragens, e é oque iremos fazer nessa aula.
+Aula 22 - Projeto Final: Componente Categoria
+
+Nesta aula, iremos criar o próximo componente: o componente de categorias e também o filtro.
+
+O que vamos implementar:
+
+As categorias serão mostradas de forma dinâmica, com base em dados simulados.
+
+Cada item da categoria será gerado automaticamente.
+
+Vamos aplicar efeitos visuais: quando um item for selecionado, ele ficará um pouco mais escuro.
+
+Implementaremos um sistema de swipe (carrossel). Por exemplo: se tivermos 14 itens por página, ao ultrapassar esse número, o usuário poderá “passar” para os próximos 14 itens (como se fosse folheando páginas de categorias).
+
+O botão Filtro abrirá um modal de filtragem.
+
+Criando o componente Categoria
+
+Dentro da pasta components, iremos criar o componente Categoria.jsx.
+
+Também criaremos um arquivo de estilo: categorias.css.
+
+Importando o CSS no componente
+
+No componente Categoria, faremos a importação assim:
+
+import './css/categorias.css'
 
 
- (crie titulo)
- dentro da pasta de componentes, iremos criar o nosso proprio componente chamado de categorias.jsx
-e dentro do css iremos criar uma catgorias,css pra ser o css de categoria
-(crie um mini titulo)
-novmente iremos fazer a importação css até aprender.
-importação css pro componente de categoria:
-dentro do componente de categorias iremos impotar o css
-dessa forma:
-import'./css/categorias.css'
+E depois iremos importar o componente Categoria dentro do App.jsx:
 
-
-e depois iremos importar categorias no nosso componente app.jsx.
-dessa forma:
-//importar componentes
+// importar componente
 import Categoria from './components/Categoria'
-
-
 
 function App() {
   return (
-   <div>
-    <Categoria></Categoria>
-   </div>
+    <div>
+      <Categoria />
+    </div>
   )
 }
 
+Estrutura do container
+
+O container terá 12 colunas:
+. 11 colunas para os itens de categoria.
+. 1 coluna para o botão de filtro.
+. Serão divs diferentes e, juntando as duas, formarão duas colunas
+Exemplo em JSX:
+
+<div className='container-airbnb border border-info row'>
+  <div className='col-sm-11'>
+    aqui categoria
+  </div>
+  <div className='col-sm-1'>
+    aqui o filtro
+  </div>
+</div>
+
+Usando o Swiper
+
+Dentro do componente de categoria, usaremos o Swiper.
+
+O que é o Swiper?
+
+O Swiper é uma biblioteca que cria sistemas de slide/swipe (carrossel).
+O legal é que, além de funcionar com HTML e CSS puro, ele também possui uma versão específica para React, o que facilita bastante.
+
+Instalando o Swiper
+
+Para usar, precisamos instalar via npm.
+
+Acesse o site oficial: https://swiperjs.com/
+
+Vá em Docs > swiper react.
+
+Copie o comando de instalação:
+
+npm i swiper
 
 
-o container tera 12 colunas, onde 11 será o itens e 1 sera o botão de filtro, e 
-serão divs diferente e jutando as duas será duas colunas, dessa forma:
+Rode o comando no terminal ou no cmd.
 
- <div className='container-airbnb border border-info row'>
-        <div className='col-sm-11'>
-          aqui categoria
-        </div>
-        <div className='col-sm-1'>
-          aqui o filtro
-        </div>
-      </div>
+Na mesma documentação, encontramos também os imports e um código de exemplo.
 
- (cire mini titulo)
-dentro da categoria iremos fazer o uso do swaip, e oque é o  swiper? se entramos no site oficial deles veremos que
-se trata de uma biblioteca que trabalha com sistemas de swap e o legal do swiper e que alem de trabalhar com html e css norma,
-ele ja tem uma biblioteca especifica pra react
+Exemplo do Swiper (React)
+<Swiper
+  spaceBetween={50}
+  slidesPerView={3}
+  onSlideChange={() => console.log('slide change')}
+  onSwiper={(swiper) => console.log(swiper)}
+>
+  <SwiperSlide>Slide 1</SwiperSlide>
+  <SwiperSlide>Slide 2</SwiperSlide>
+  <SwiperSlide>Slide 3</SwiperSlide>
+  <SwiperSlide>Slide 4</SwiperSlide>
+  ...
+</Swiper>
 
-(crie titulo)
-pra poderms usar o swipe, eu vou precisar instalar ele via npm, e pra isso eu vou acessar o site
-ofical, url: https://swiperjs.com/ e vou procurar a parte de react que fica em docs e swiper react, e pegar o codigo npm que é npm i swiper,
-com esse codigo em mãos eu rodo ele no terminal ou no cmd e apos instalar.
-ainda dentro desse docs o react que tem o codigo npm, tambem vai conter as importações e um codigo de exemplo do swiper e vamos colar no nosso projeto,
-codigo esse é:
-  <Swiper
-      spaceBetween={50}
-      slidesPerView={3}
-      onSlideChange={() => console.log('slide change')}
-      onSwiper={(swiper) => console.log(swiper)}
-    >
-      <SwiperSlide>Slide 1</SwiperSlide>
-      <SwiperSlide>Slide 2</SwiperSlide>
-      <SwiperSlide>Slide 3</SwiperSlide>
-      <SwiperSlide>Slide 4</SwiperSlide>
-      ...
-    </Swiper>
-
-
-e as suas importações são:
+Importações necessárias
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
 
-copio e colo toda essa importaçoes no componente que vou utilizar o swiper.
 
+Essas importações devem ser feitas no componente que vai usar o Swiper.
 
+Criando os dados de categorias (simulando API)
 
-(crie um titulo)
-criamos um array com varios obejtos simulando uma api com varios dados,
-esse arquivo salvando na pasta beckend e arquivo esse é o dados.js.
-criamos esses dados pra simular como se estivessemos buscando os dados de algum banco de dados.
-esse aray damos o nome de categorias
-exemplo do que foi criado:
+Criamos um arquivo chamado dados.js dentro da pasta backend.
+
+Esse arquivo contém um array de objetos, simulando dados vindos de um banco ou API.
+
+Exemplo do arquivo:
+
 export const categorias = [
-    {
-        id: 1,
-        imagem: 'https://a0.muscache.com/pictures/bcd1adc0-5cee-4d7a-85ec-f6730b0f8d0c.jpg',
-        titulo: 'Em frente à praia'
-    },
-    {
-        id: 2,
-        imagem: 'https://a0.muscache.com/pictures/732edad8-3ae0-49a8-a451-29a8010dcc0c.jpg',
-        titulo: 'Chalés'
-    }, 
+  {
+    id: 1,
+    imagem: 'https://a0.muscache.com/pictures/bcd1adc0-5cee-4d7a-85ec-f6730b0f8d0c.jpg',
+    titulo: 'Em frente à praia'
+  },
+  {
+    id: 2,
+    imagem: 'https://a0.muscache.com/pictures/732edad8-3ae0-49a8-a451-29a8010dcc0c.jpg',
+    titulo: 'Chalés'
+  }
+]
 
+Importando os dados no componente Categoria
+Para usar os dados de categorias no nosso componente, 
+precisamos importar o array de objeto chamado categorias de onde ele foi criado.
 
- 
-    
- agora como exportaamos esses dados de categorias?
- e so importar o array categoria no nosso componente de categoria,
- e pra isso passamos o import e dentro de {} o array de categorias fora de chaves passams 
-from e o caminho da pasta que no caso precisamos voltar uma pasta com ../pasta beckend / e 
-o arquivo dos dados
-exemplo:
+O processo é o seguinte:
+1. Usamos a palavra-chave import.
+2. Dentro de chaves {}, passamos o nome do array que queremos importar (no caso, categorias).
+3. Depois usamos a palavra from seguida do caminho do arquivo onde esse array está salvo.
+.Como o arquivo está dentro da pasta backend/dados, precisamos voltar uma pasta 
+com ../ e depois indicar o caminho correto.
+
+📌 Exemplo de importação:
 import { categorias } from '../backend/dados'
 
 
 
-agora comom podemos puxar os dados do nosso array que estamos simulando uma api?
-iremos fazer um laço de repetição, um mapeamento e colocar noso wsap.
-então começamos abrindo o nosso jsx {} e dentro das chaves colocamos essas categorias que foram importadas
-e iremos mapear ela com o map, usando categorias.map() e dentro de map iremos criar uma arrown function 
-com dados e o indeex como parametro, (segundo o professor, não estamos criando uma arown functiom e sim atribuindo um retorno nossos dados, se isso estiver certo corriga minha explicação)
-e dentro dessa arrown function colocamos o   <SwiperSlide> e dentro dele fazemos o uso dos dados,
-mas primeiro passamos o img e no src passamos usando a sintaxe jsx qual é os dados . na posição imagem.
-então queremos dizer que dentro de dados vamos pegar imagem.   
-e em baixo de img podemos fazer span com o titulo, passando da mesma forma dentro dele, {dados.titulo}
-exemplo de como foi feito:
+Como puxar os dados do nosso array (simulando uma API):
+Agora que já importamos as categorias, precisamos exibir esses dados no nosso componente. 
+Para isso, vamos fazer um mapeamento usando o método .map().
 
- {
-        categorias.map((dados, index)=>(
-           <SwiperSlide>
-            <img src='dados.imagem' />
-            <span>{dados.titulo}</span>
-           </SwiperSlide>
-        ))
-      }
+Passo a passo:
+1. Abrimos o JSX com {}.
+2. Dentro dessas chaves, chamamos o array de categorias que importamos.
+3. Usamos categorias.map() para percorrer cada item do array.
+4. Dentro do .map(), criamos uma arrow function que recebe dados 
+(cada item do array) e index (a posição do item no array).
 
+⚠️ O professor explicou que, nesse caso, não estamos criando uma arrow function tradicional, 
+e sim atribuindo diretamente um retorno para os dados. Ou seja, o retorno já está sendo passado 
+sem precisar do return explícito, porque usamos a sintaxe () => (...).
+
+5. Dentro da arrow function, retornamos um <SwiperSlide>.
+6. Dentro de <SwiperSlide>, exibimos os dados:
+   . Primeiro, colocamos a tag <img />, e no atributo src usamos a sintaxe JSX para pegar a imagem: {dados.imagem}.
+   . Logo abaixo, criamos um <span> exibindo o título: {dados.titulo}.
+
+📌 Exemplo de código:
+
+{
+  categorias.map((dados, index) => (
+    <SwiperSlide key={index}>
+      <img src={dados.imagem} />
+      <span>{dados.titulo}</span>
+    </SwiperSlide>
+  ))
+}
+
+
+👉 Pronto! Agora temos um componente de categorias que:
+. Exibe os dados dinamicamente.
+. Usa o Swiper para permitir navegação entre os itens.
+. Já está preparado para o botão Filtro.      
 -->
