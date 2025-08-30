@@ -1,16 +1,23 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+<!-- #region 
+Aula 24 - Projeto Final Componente Filtro (Finalizado):
 
-//Importar CSS do PriceSlider
-import './css/PriceSlider.css';
+apesar do nosso filtro funcionar na aula passada, ele ainda tem alguns bugs que precisamos corrigir,
+como podemos ultrapassar a barra do preço maximo no preço minimo e visse e verso,
+isso não poderi acontece.
 
-export default function PriceSlider(props) {
 
-    const [min, setMin] = useState(props.min);
-    const [max, setMax] = useState(props.max);
-    const [left, setLeft] = useState('0%');
-    const [right, setRight] = useState('0%');
 
+então para corrigir isso, iremos validar a função changeRngeMin e Max.
+então passamos a seguinte validação dentro do evento,
+if(parseInt(e.target.value) - max) >=-  -porps.step,
+e isso vai siginificar que se o valor do nosso evento e.targeth.value, mas primeiros comvertemos para inteiro,
+for menos que o valor maximo, tem que ser >= props.step e colocando sendo negativo, ou seja, vai parar e colocamos oque queremos que aconteça.
+exemplo dentro do if:
+console.log('limite minímo alcançado!')
+exibirar essa mensagem quando o valor minimo chegar no valor maximo
+
+se não acontecer isso vai exibir nosso codigo normalmente que ja tinhamos.
+exemplo de como foi feito:
     function changeRangeMin(e) {
 
         if ((parseInt(e.target.value) - max) >= -props.step) {
@@ -26,9 +33,15 @@ export default function PriceSlider(props) {
                 setLeft(((qtsSteps * 100) / totalBarra) + "%");
             }
         }
-
-
     }
+
+dessa forma os valores miimos ja não vai ultrapassar o maximo e vai parar,
+tamebm ja ira autlaizar os valores abaixo 
+
+
+
+e a mesma coisa fazemos pro valor maximo porem com algunas coisas ao contrario.
+exemplo:
 
     function changeRangeMax(e) {
 
@@ -45,25 +58,41 @@ export default function PriceSlider(props) {
                 setRight(((qtsSteps * 100) / totalBarra) + "%");
             }
         }
-
-
     }
 
-    useEffect(() => {
-        if (min == props.min) {
-            document.getElementById('inputMin').value = props.min;
-        } else {
-            document.getElementById('inputMin').value = min;
-        }
-    }, [min]);
 
-    useEffect(() => {
-        if (max == props.max) {
-            document.getElementById('inputMax').value = props.max + "+";
-        } else {
-            document.getElementById('inputMax').value = max;
-        }
-    }, [max]);
+
+dessa forma, as barrinhas ja irão funcionar.
+
+
+
+(crie um titulo)
+agora iremos querer que quando a pessoa digite um valor, ele será atualizado na barrinha, e tambem queremos que
+ao digitar aceite apenas numeros, coisa que no momento está aceitando qualquer valor, tambem irrmos valia que esses
+campos não podem ser vazio, e não podem ser zero assim o usuario tera os valores completos tambem pelos os valores que ele adicionar alí no slider.
+
+
+para fazer isso, colocamos um evento nos input chamado onBlur e passamos a função validação, esse evento siginifica que quando sair o foco do campo vai chamar a função vaidação.
+exemplo:
+  <div className='col'>
+    <label className='text-muted'>preço mínimo</label>
+    <div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">R$</span>
+    <input id="inputMin" onBlur={validacao} onKeyPress={(e) => { (e.key == "Enter" ? validacao(e) : soNumero(e)) }} type="text" class="form-control" placeholder="Min" />
+    </div>
+</div>
+    <div className='col'>
+    <label className='text-muted'>preço máximo</label>
+    <div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">R$</span>
+    <input id="inputMax" onBlur={validacao} onKeyPress={(e) => { (e.key == "Enter" ? validacao(e) : soNumero(e)) }} type="text" class="form-control" placeholder="Max" />
+</div>
+
+repare nos eventos dos inputs.
+
+
+agora vamos criar essa função.
+exemplo da função criada.
 
     function validacao(e) {
         //CAMPO INPUT MIN
@@ -164,37 +193,42 @@ export default function PriceSlider(props) {
 
     }
 
-    function soNumero(e) {
+
+(chat, eu realmente não tenho paciencia pra explicar tudo isso, então explique com detalhes essa função 
+mas com muito detalhe mesmo, explique oque ta acontecendo, a logica que ta acontecendo, explique como se tivesse ensinando e não só explicando 
+, quero algo facil de entender mas com detalhes pois toda essa logica foi enrome e não quero que voce deixe de ensinar direitinho,
+explique a logica dos if e else tambem como se estivesse falando o caminho, exempl, se o valor digitado nor vazio ou se o valor total for null, acontece tal coisa se não, "else",tendeu?) 
+
+
+
+
+e para fazer com que só aceite numeros, iremos criar uma função especifica para isso.
+exemplo:
+ function soNumero(e) {
         if (!/[0-9]/.test(e.key)) {
             e.preventDefault();
         }
     }
 
-    return (
-        <div>
-            <div className='slider'>
-                <div style={{ left: left, right: right }} className='progress'></div>
-            </div>
-            <div className='range-input'>
-                <input id='rangeMin' onChange={changeRangeMin} type="range" min={props.min} max={props.max} value={min} step={props.step} />
-                <input id='rangeMax' onChange={changeRangeMax} type="range" min={props.min} max={props.max} value={max} step={props.step} />
-            </div>
-            <div className='row mt-4'>
-                <div className='col'>
-                    <label className='text-muted'>preço mínimo</label>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">R$</span>
-                        <input id="inputMin" onBlur={validacao} onKeyPress={(e) => { (e.key == "Enter" ? validacao(e) : soNumero(e)) }} type="text" class="form-control" placeholder="Min" />
-                    </div>
-                </div>
-                <div className='col'>
-                    <label className='text-muted'>preço máximo</label>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">R$</span>
-                        <input id="inputMax" onBlur={validacao} onKeyPress={(e) => { (e.key == "Enter" ? validacao(e) : soNumero(e)) }} type="text" class="form-control" placeholder="Max" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
+
+(explique com detalhes essa função, as expresoes usadas, qual é a logica, oque ta acontecendo, e etc, ensine como um professor
+exolicaria com clareza pro aluno.)
+
+e no input fazemos uma validação com o evento de quando presionar uma tecla, com o evento onKeyPress, e dentro passamos a seguintefunção.
+exemplo do codigo:
+<input id="inputMin" onBlur={validacao} onKeyPress={(e) => { (e.key == "Enter" ? validacao(e) : soNumero(e)) }} type="text" class="form-control" placeholder="Min" />
+
+então passamos nuam arrown function que o nosso event key for igual igual a enter, ou seja, quando de enter, então se isso for verdadeiro, irá surgir uma condição ternaria que vai pedir pra eçe fazer a validação passando o nosso evento,
+se não vamos pedir pra ele ferificar se é um numero passando qual que é o nosso evento, desssa forma ele vai permitir que oque esteja sendo digitado seja apenas numero (se voce conseguir explicar melhor pode ficar a vontade chat).
+
+
+
+
+
+(crie titulo)
+quando usamos imput e labem e vamos fazer o ligamento deles, no labem não usamos for e o id do input,
+nos usamos htmlFor no react. exemplo:    
+<input class="fs-4 form-check-input" type="checkbox" value="" id="quartoCompartilhado" />
+<label class="ps-2 form-check-label" htmlFor="quartoCompartilhado">
+
+-->
