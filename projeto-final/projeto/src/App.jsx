@@ -12,7 +12,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Categorias from './components/Categorias';
 import ModalFilter from './components/ModalFilter';
-
+import Card from './components/Card';
 function App() {
 
   return (
@@ -20,6 +20,7 @@ function App() {
       <Navbar />
       <Categorias />
       <ModalFilter />
+      <Card />
     </div>
   )
 }

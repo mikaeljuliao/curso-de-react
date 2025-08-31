@@ -1,0 +1,144 @@
+<!--
+ Aula 25 - Projeto Final Componente Card
+nessa aula iremos trabaslhar na area principal da nossa aplicação que é a parte dos cards,
+ os cards terão uma opçaõ de swaiper com as imagens, e os dados, imegns, titulos e etc sendo puxado pelo uma Api 
+ Exterma que nos mesmo criamos, iremos ver como fazer requsição para que possamos puxar os dados de uma api e eles retornarem 
+ as informações certinhas dos cards, iremos fazer a responsividade dos cards, fazendo com que se
+ adaptite a diferentes tipos de telas, e iremos trabalhar na questão dos filtros 
+ que ao mexer no filtro atualize os cards e faça a questão da filtragem.
+
+
+
+
+(crie um mini titulo):
+então vamos colocar a mão na maça, a primeira coisa que vamos fazer e criar nosso componente Card,jsx
+e esse card vai ser onde vamos ter cada um dos cards
+e importamos ele no nosso App.jsx e retornamos ele no noso componente.
+exemplo:
+//Importar Components
+import Card from './components/Card';
+function App() {
+
+  return (
+    <div>
+      <Card />
+    </div>
+  )
+}
+
+e tamebm criamos um arquivo css para ele e o importamos 
+no seu componente.
+exemplo:
+import React from 'react'
+import ';/css/Card.css'
+export default function Card() {
+  return (
+    <div>Card</div>
+  )
+}
+
+
+
+(crie titulo)
+para importamos os dados dos objetos dos cards do beckend,
+iremos puxar esses dados localmente do nosso arquivo beckend,
+importamos dessa forma:
+import { acomodacoes } from '../../backend/dados'
+
+
+nossas abrimos a sintaxe jsx e pegamos o objeto acomodações 
+e voltamos algunas pastar pra ir no caminho dos dados.
+aqui pegamos so o acomodações mas poderiamos pegar o categorias e etc.
+
+
+
+(crie titulo)
+ <div className='col-xxl2'>
+ nos fazemos com que as colunas seja redenrizada de acrodo com a quantidade de acomodações no nosso array de acomodações 
+ e para cada um dos objetos ele vai montar uma coluna, e pra isso faremos uso do map,
+ então fazemos assim, abrimos o jsx e pegamos o acomodacoes.map(()).
+ exemplo de como foi feito:
+  import { acomodacoes } from '../../backend/dados'
+export default function Card() {
+  return (
+    <div className='container-fluid'>
+        <div className='container-airbnb row'>
+            acomodacoes.map((acomodacao, index) => (
+                      <div key={acomodacao.id} className='col-xxl2'>
+                    <img src={acomodacao.imagens[0]} className='img-fluid' />
+                        <p>
+                        <span>{acomodacao.cidade}, {acomodacao.pais}</span>
+                        <span className='mdi mdi-star'>{acomodacao.nota}</span>
+                      </p>
+                          <p>50 KM de distância</p>
+                      <p>10 de jan - 28 fev</p>
+                      <p>{acomodacao.preco.toLocaleString='pt-br'} noite</p>
+                      
+                      </div>
+              
+                    ))
+      
+        </div>
+ </div>
+  )
+}
+
+nos abrimos o jsx e passamos o acomodacoes.map para pecorrer cada item e 
+dentro dela passamos uma key pra identificar cada item com acomodacao . e puxamos o id de cada item de acomodacoes.
+e essa div e onde contera os itens da coluna e onde iremos puxar todos os dados de  , e dentro dela passamos o img com o src pegando a primeira
+imagem, da posicção 0, com {acomodacao.imagens[0]} e assim ele retornar todas as imagens a coluna.
+(essas imagens serão mudada depois pois iremos usar swaiper)
+tambem puxamos os dados de cidades e pais pra dentro de um paragrafo,e pra separar bem as estrelinhas com
+as cidade e pais, criamos um span pros dois e passamos no segundo spam um icone de estrela e puxamos seus dados com jsx,
+alem disso criamos outro paragrafo para colocar a distancia, isso sera feito de forma aleatoria e tambem tem outro paragrafo
+mostrando quanto que se encontra dispovell, tambem sera de forma aleatoria, (o intuito e fazer de forma aleatoria para poupar
+tempo e focar nos conteitos do react ) e em seguida criamos outro paragrafo para colocar o valor,
+puxamos o valor de acomodação e transoformamos o valor em valor brasileiro que tem ponto com toLocaleString='pt-br',
+ai passamos que uma string local sera convertido pro brasil
+
+
+
+
+
+
+
+
+
+(crie um titulo)
+quando passamos css diretamente no codigo, nos chamaso a tag style e o css dentro do react funciona como um objeto,
+então a primeira chaves que vem style={} e do jsx e dentro do jsx eu preciso abrir mais uma chaves pra passar os obejtos css que no caso são as propriedades,
+e no reat não passamos traco como em max-widht no css normal, no react usamos cameoucase, então a inicial da proxima palavra e maisucula.
+por exemplo:
+  <span style={{border:'1px solid red', display:'block', maxWidth:'160px'}} className='fw-bold text-truncate'>{acomodacao.cidade}, {acomodacao.pais}</span>
+
+
+
+
+  (crie um titulo)
+  criando a função de gerar numeros aleatorios para as kilometragem.
+  exemplo feito:
+   function getRandonInt(min,max){
+        min = Math.ceil(min);
+        //ceil retornar o menor numero pra baixo
+        max = Math.floor(max)
+        // o floor torna o numer inteiro pra cima
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+
+explicação do exemplo:
+  criando a função de numeros randomico:
+    essa função é a responsavel em gerar numeros aleatorios que iremos
+    gerar uma kilometragem fake, para isso criamos uma função e passamos dois parametro o min que vai representar o numero minimo
+    e o max que ira representar o numero maximo.
+    
+    pra fazer o arrendodamento usamos o math, o primeiro , o numero min
+    usamos o ceil que arredonanda pra inteiro pra baixo(exemplo, se for 1,8 sera 1)
+    e usamos o math.floor, o floor ele arredonando o numero para inteiro pra cima.
+    e em seguida pedimos pra retornar pra nos essa função, pedimos pra fazer o arredondamento pra cima
+    do numero randon com match.random, esse (metodo javascript random gera um numero entre 0 e 1) vezes o maximo menos o minimo + 1 +min
+    e isso é um calculo que ira gerar um  numero randomico de acordo com a entrada que eu der,
+    por exemplo eu coloco la 10 e o maximo 600 (termine o exemplo chat)
+    
+    
+-->
