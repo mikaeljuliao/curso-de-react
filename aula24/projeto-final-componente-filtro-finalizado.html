@@ -231,4 +231,185 @@ nos usamos htmlFor no react. exemplo:
 <input class="fs-4 form-check-input" type="checkbox" value="" id="quartoCompartilhado" />
 <label class="ps-2 form-check-label" htmlFor="quartoCompartilhado">
 
+
+
+
+
+(crie um titulo)
+uma coisa interessante que podemos fazer, e criar varioes botoes diferente no props,
+exemplo:
+  <section className='px-2 mb-4 border-bottom'>
+                            <span className='fs-4 fw-bold'>Quartos e Camas</span>
+                            <p className='mt-3 px-1'>Quartos</p>
+                            <ButtonGroup buttons={["Qualquer um", "1", "2", "3", "4", "5", "6", "7", "8+"]} />
+                            <p className='mt-3 px-1'>Camas</p>
+                            <ButtonGroup buttons={["Qualquer um", "1", "2", "3", "4", "5", "6", "7", "8+"]} />
+                            <p className='mt-3 px-1'>Banheiros</p>
+                            <ButtonGroup buttons={["Qualquer um", "1", "2", "3", "4", "5", "6", "7", "8+"]} />
+                        </section>
+                        
+ 
+ aqui nos criamos um array de botões como props no componente ButtonGroup,
+ iremos ter o botão qaulquer um, 1, 2, 3 e etc, e cada botão desse e separado por virgula,
+ (chat, use essa minha explicação e explique bem melhor por favor, explique de forma mais clara de enteder
+mas com detalhes tecnicos paa eu aprender como fazer isso e como foi feito, e explique a sintaxe,
+por exemplo o buttons, esse é o nome do props ou uma tag button? e pra passar o props passamos chaves,
+mas dentro de chaves foi passado [] e foi criado um array, como assim , explique melhortambem sobre a sintaxe)
+
+
+(crie mini titulo)
+ai pra eu resgatar esses props no nosso componente buttonGroup,
+nos poderiamos passar no parametro da função do componente props.buttons e pegar os valores
+(der um exemplo chat)
+ou podemos ja pegar direto os valores usando a sintaxe jsx {} e passar direto o props.
+exemplo:
+import React from 'react'
+
+export default function ButtonGroup(buttons) {
+  return (
+    <div>ButtonGroup</div>
+  )
+}
+
+dessa forma ja pegamos o array, essa lista de butões.
+
+
+
+(crie mini titulo)
+foi dessa forma que os botoes foram resgatados.
+exemplo:
+ 
+export default function CardGroup({ options }) {
+    const [clickedId, setClickedId] = useState(-1);
+
+    const handleClick = (e, i) => {
+        setClickedId(i);
+        console.log('O indice clicado foi: ' + i);
+    }
+    return (
+        <div className='row mt-4'>
+            {
+                options.map((item, i) => (
+                    <div key={i} className='col'>
+                        <div
+                            onClick={(e) => handleClick(e, i)}
+                            className={i === clickedId ? "w-100 cardGroup active" : "w-100 cardGroup"}>
+                            <i className={item.icon}></i>
+                            <p className='text-truncate'>{item.text}</p>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    )
+}
+
+(der uma explicação da mesma forma que pedir as props buttons la´expliqcar com detalhes como foi feito, 
+como eu poderia fazer, sua sintaxe que foi usado ai pra resgatar  etc, explique a logica no passo a passo explicando tudo,
+os valores dos parametros, os estado, as condiçoes e etc, exoluqye como botamos pra funionar)            
+                        
+
+
+
+
+(crie um titulo)
+agora chat, vou te mandar uma parte do filtro dos itens, e essa parte eu so vou mandar o codigo,
+voce que vai explicar e organizar tudo, me explique de forma clara, explique a logica que foi usado em cada passo a passo,
+as sintaxes, explique os parametros, props, eventos, propriedades, explique o passo a passo certinho de forma muito didaidca
+e facil de entender, mas não se poupe de detalhes, so nao precisa explicar tanto o css, apeas os pontos principais.
+
+
+componente cardGroup:
+import React from 'react';
+import { useState } from 'react';
+//Importar CSS do CardGroup
+import './css/CardGroup.css';
+
+export default function CardGroup({ options }) {
+    const [clickedId, setClickedId] = useState(-1);
+
+    const handleClick = (e, i) => {
+        setClickedId(i);
+        console.log('O indice clicado foi: ' + i);
+    }
+    return (
+        <div className='row mt-4'>
+            {
+                options.map((item, i) => (
+                    <div key={i} className='col'>
+                        <div
+                            onClick={(e) => handleClick(e, i)}
+                            className={i === clickedId ? "w-100 cardGroup active" : "w-100 cardGroup"}>
+                            <i className={item.icon}></i>
+                            <p className='text-truncate'>{item.text}</p>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    )
+}
+
+ele sendo chamado e uas props em modalFilter:
+ <CardGroup
+                                options={[
+                                    { icon: "mdi mdi-home-outline", text: "Casa" },
+                                    { icon: "mdi mdi-city-variant-outline", text: "Apartamento" },
+                                    { icon: "mdi mdi-home-import-outline", text: "Casa de hóspedes" },
+                                    { icon: "mdi mdi-office-building-outline", text: "Hotel" },
+                                ]} />
+
+
+seu css:                                
+.cardGroup{
+    display: flex;
+    flex-flow: column wrap;
+    align-content: space-between;
+    height: 130px;
+    padding-left:15px;
+    background:white;
+    border:1px solid #ccc;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+.cardGroup:hover{
+    border: 1px solid #161616;
+}
+
+.cardGroup i{
+    font-size:2.5rem;
+    padding-top:10px;
+    margin-bottom:15px;
+}
+
+.cardGroup p{
+    max-width: 140px;
+    font-weight: 600; 
+}
+
+.cardGroup.active{
+    display: flex;
+    flex-flow: column wrap;
+    align-content: space-between;
+    height: 130px;
+    padding-left:15px;
+    background:#161616;
+    color: white;
+    border:1px solid #161616;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+
+
+
+
+
+
+(observação minha, eu resolvi resgistrar essas props tambem pq diferen da outra que foi feito com arrays, essa foi feita com obejtos,
+então quero ter ciencia que tambem pode ser feita com objetos e ter uma boa explicação sobre oque eu mandei
+pra eu aprender com clareza)
+
+
 -->
