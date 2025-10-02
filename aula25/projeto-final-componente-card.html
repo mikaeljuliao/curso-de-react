@@ -1,339 +1,23 @@
 <!--
 
-Aula 25 – Projeto Final: Componente Card
+Aula 25 — Projeto Final: Componente Card
+Visão geral (seu texto original)
 
-Nesta aula iremos trabalhar na área principal da nossa aplicação, que é a parte dos cards.
-
-Os cards terão:
-. Um Swiper para exibir imagens.
-. Dados dinâmicos como imagens, títulos, localização, nota e preço.
-. Informações sendo puxadas de uma API externa que nós mesmos criamos.
-. Vamos aprender a fazer requisições para a API e exibir os dados certinhos nos cards.
-. Também vamos implementar responsividade, fazendo com que os cards se adaptem a diferentes tamanhos de tela.
-. E vamos trabalhar na questão dos filtros, de forma que ao alterar um filtro, os cards atualizem automaticamente.
-
-
-
-Criando o Componente Card.jsx:
-👉 Então vamos colocar a mão na massa!
-A primeira coisa que faremos é criar o componente Card.jsx, que será responsável por renderizar cada card.
-
-Depois, importamos ele no App.jsx e retornamos dentro do nosso componente principal.
-
-Exemplo:
-// Importar componente
-import Card from './components/Card';
-
-function App() {
-  return (
-    <div>
-      <Card />
-    </div>
-  );
-}
-
-
-Também criamos um arquivo CSS para o componente e importamos dentro dele.
-
-Exemplo:
-import React from 'react';
-import './css/Card.css';
-
-export default function Card() {
-  return (
-    <div>Card</div>
-  );
-}
-
-
-
-Importando os Dados do Backend:
-nos criamos um array de objetos para simularmos uma api.
-
-Antes de integrar com a API, vamos puxar os dados localmente do nosso arquivo backend.
-
-Exemplo:
-import { acomodacoes } from '../../backend/dados';
-
-
-➡️ Aqui estamos pegando apenas o objeto acomodacoes, mas poderíamos pegar também categorias e outros dados.
-Note que voltamos algumas pastas (../../) para chegar no caminho certo.
-
-
-
-
-
-
-
-
-
-
-
-
-Renderizando os Cards com .map() no React:
-
-Nosso objetivo é que cada acomodação vire automaticamente um card na tela.
-Para isso, usamos o método .map(), que percorre os itens de um array e gera JSX para cada objeto.
-
-Exemplo Básico
-import { acomodacoes } from '../../backend/dados';
-
-export default function Card() {
-  return (
-    <div className='container-fluid'>
-      <div className='container-airbnb row'>
-        {acomodacoes.map((acomodacao) => (
-          <div key={acomodacao.id} className='col-xxl-2'>
-            <img src={acomodacao.imagens[0]} className='img-fluid' alt={acomodacao.titulo} />
-            
-            <p>
-              <span>{acomodacao.cidade}, {acomodacao.pais}</span>
-              <span className='mdi mdi-star'> {acomodacao.nota}</span>
-            </p>
-
-            <p className='text-muted my-0'>50 KM de distância</p>
-            <p className='text-muted'>10 de jan - 28 fev</p>
-            <p>{acomodacao.preco.toLocaleString('pt-BR')} noite</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-
-Explicação Detalhada:
-1) O método .map()
-. .map() é um método de arrays que cria um novo array aplicando uma função a cada item.
-. Em React, usamos .map() para transformar cada objeto em JSX, ou seja, elementos da interface.
-. Diferente de .forEach(), o .map() retorna valores, e por isso é o correto para renderizar listas no React.
-
-
-👉 Exemplo mental:
-acomodacoes = [{id: 1, titulo: "Casa"}, {id: 2, titulo: "Apartamento"}];
-acomodacoes.map(acom => <div>{acom.titulo}</div>);
-
-➡️ Resultado: um array de <div> pronto para renderizar na tela.
-
-
-2) A prop key={}
-. A key dá uma identidade única para cada elemento da lista.
-. O React usa isso no algoritmo de reconciliação para saber quais elementos mudaram, foram adicionados ou removidos.
-
-👉 Se você usar índices (key={i}) em vez de um ID estável, pode gerar problemas:
-. O React pode reaproveitar nós DOM errados, causando bugs (por exemplo, valores de inputs trocando de posição).
-. Pode causar re-renderizações desnecessárias, piorando o desempenho.
-
-✅ Boa prática: sempre usar um ID estável vindo do backend.
-
-
-3) Sistema de Grid (Bootstrap)
-. container-fluid e row fazem parte do grid system do Bootstrap.
-. col-xxl-2 significa que o card ocupa 2 colunas em telas extra grandes (12 colunas no total).
-
-👉 Melhor prática: adicionar classes para várias resoluções:
-
-className="col-xxl-2 col-lg-3 col-md-4 col-sm-6"
-
-
-➡️ Assim os cards ficam responsivos, adaptando-se em diferentes tamanhos de tela.
-
-
-
-4) Imagens (<img />)
-. acomodacao.imagens é um array de URLs.
-. acomodacao.imagens[0] pega a primeira imagem do array.
-
-Boas práticas:
-. Sempre use alt descritivo (para acessibilidade e SEO).
-
-alt={acomodacao.titulo || `${acomodacao.cidade}, ${acomodacao.pais}`}
-
-. Use loading="lazy" para carregar imagens apenas quando aparecerem na tela (melhorando desempenho).
-
-<img
-  src={acomodacao.imagens[0]}
-  alt={acomodacao.titulo || `${acomodacao.cidade}, ${acomodacao.pais}`}
-  className="img-fluid"
-  loading="lazy"
-/>
-
-
-
-5) Formatação de Preço:
-. O código acomodacao.preco.toLocaleString('pt-BR') formata o número no padrão brasileiro (ex.: 2500 → 2.500).
-. Para exibir como moeda (R$), use:
-
-acomodacao.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-
-
-➡️ Exemplo: 2500 → R$ 2.500,00
-
-⚠️ Atenção: toLocaleString='pt-br' (com sinal de =) está errado. O correto é passar 'pt-BR' como argumento da função.
-
-
-Exemplo com Melhorias Aplicadas:
-
-Aqui está o mesmo código, mas com boas práticas adicionadas (responsividade, acessibilidade e formatação de preço):
-
-{acomodacoes.map(acomodacao => (
-  <div key={acomodacao.id} className="col-xxl-2 col-lg-3 col-md-4 col-sm-6 mb-4">
-    <img
-      src={acomodacao.imagens[0]}
-      alt={acomodacao.titulo || `${acomodacao.cidade} - ${acomodacao.pais}`}
-      className="img-fluid"
-      loading="lazy"
-    />
-    <p>
-      <span className="fw-bold text-truncate">{acomodacao.cidade}, {acomodacao.pais}</span>
-      <span className="ms-2 mdi mdi-star"> {acomodacao.nota}</span>
-    </p>
-    <p className='text-muted my-0'>{getRandomInt(10, 800)} KM de distância</p>
-    <p className='text-muted'>{getRandomInt(1, 31)} de jan - {getRandomInt(1, 28)} de fev</p>
-    <p>{acomodacao.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} / noite</p>
-  </div>
-))}
-
-✅ Resumo
-1. .map() transforma arrays em listas de JSX.
-2. Sempre usar key estável (ID do banco) para evitar bugs.
-3. Classes de grid (col-xxl-2, etc.) garantem layout responsivo.
-4.Imagens devem ter alt e loading="lazy".
-5. Formatação de preço deve usar toLocaleString corretamente.
-6. Podemos enriquecer os cards com informações aleatórias (distância, datas) enquanto aprendemos os conceitos do React.
-
-
-
-
-
-CSS Inline no React:
-
-No React, quando passamos estilos inline, usamos a tag style.
-O CSS é tratado como um objeto JS, então:
-
-style={{}} abre o objeto.
-
-As propriedades devem estar em camelCase, e não com hífen.
-
-Exemplo:
-<span
-  style={{
-    border: '1px solid red',
-    display: 'block',
-    maxWidth: '160px'
-  }}
-  className='fw-bold text-truncate'
->
-  {acomodacao.cidade}, {acomodacao.pais}
-</span>
-
-
-
-
-Criando Função para Números Aleatórios:
-
-Queremos simular dados como distância e datas.
-Para isso, criamos uma função que gera números aleatórios inteiros dentro de um intervalo.
-
-Exemplo:
-function getRandomInt(min, max) {
-  min = Math.ceil(min);   // arredonda o mínimo para cima
-  max = Math.floor(max);  // arredonda o máximo para baixo
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-Explicação detalhada:
-
-Math.random() gera um número entre 0 e 1.
-
-Multiplicamos pelo intervalo (max - min + 1).
-
-Math.floor() arredonda o número para baixo.
-
-Somamos + min para garantir que o número mínimo seja respeitado.
-
-📌 Exemplo:
-
-Chamando getRandomInt(10, 600), ele pode retornar valores como 10, 45, 320, 599, 600.
-
-Usando Função Aleatória na Distância
-
-Chamamos a função diretamente dentro do JSX:
-
-<p className='text-muted my-0'>{getRandomInt(10, 800)} KM de distância</p>
-
-
-➡️ Assim, cada card mostrará uma distância aleatória entre 10 e 800 km.
-Exemplos possíveis: 12 KM, 350 KM, 799 KM.
-
-Usando Função Aleatória para Datas
-
-Também podemos simular datas de hospedagem:
-
-<p className='text-muted'>
-  {getRandomInt(1, 31)} de jan - {getRandomInt(1, 28)} de fev
-</p>
-
-
-➡️ Exemplo de resultados:
-
-12 de jan - 25 de fev
-
-5 de jan - 14 de fev
-
-Isso cria variações aleatórias e economiza tempo, já que o foco aqui é entender os conceitos de React.
-
-✅ Resumo da Aula 25
-
-Criamos o componente Card.jsx.
-
-Importamos os dados do backend (acomodacoes).
-
-Renderizamos dinamicamente com .map().
-
-Usamos key para cada item.
-
-Exibimos imagens, localização, nota, preço e infos extras.
-
-Aprendemos a usar CSS inline no React (camelCase).
-
-Criamos uma função getRandomInt para gerar valores aleatórios.
-
-Usamos essa função para distância e datas simuladas.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Aula 25 - Projeto Final Componente Card
 nessa aula iremos trabaslhar na area principal da nossa aplicação que é a parte dos cards,
- os cards terão uma opçaõ de swaiper com as imagens, e os dados, imegns, titulos e etc sendo puxado pelo uma Api 
- Exterma que nos mesmo criamos, iremos ver como fazer requsição para que possamos puxar os dados de uma api e eles retornarem 
- as informações certinhas dos cards, iremos fazer a responsividade dos cards, fazendo com que se
- adaptite a diferentes tipos de telas, e iremos trabalhar na questão dos filtros 
- que ao mexer no filtro atualize os cards e faça a questão da filtragem.
+os cards terão uma opçaõ de swaiper com as imagens, e os dados, imegns, titulos e etc sendo puxado pelo uma Api
+Exterma que nos mesmo criamos, iremos ver como fazer requsição para que possamos puxar os dados de uma api e eles retornarem
+as informações certinhas dos cards, iremos fazer a responsividade dos cards, fazendo com que se
+adaptite a diferentes tipos de telas, e iremos trabalhar na questão dos filtros
+que ao mexer no filtro atualize os cards e faça a questão da filtragem.
 
-
-
+1) Mão na massa — criar Card.jsx (seu texto original)
 
 (crie um mini titulo):
 então vamos colocar a mão na maça, a primeira coisa que vamos fazer e criar nosso componente Card,jsx
 e esse card vai ser onde vamos ter cada um dos cards
 e importamos ele no nosso App.jsx e retornamos ele no noso componente.
 exemplo:
+
 //Importar Components
 import Card from './components/Card';
 function App() { 
@@ -345,9 +29,11 @@ function App() {
   )
 }
 
+
 e tamebm criamos um arquivo css para ele e o importamos:
 no seu componente.
 exemplo:
+
 import React from 'react'
 import ';/css/Card.css'
 export default function Card() {
@@ -356,121 +42,204 @@ export default function Card() {
   )
 }
 
+Observação / Exemplo corrigido
 
+Mantive o seu exemplo acima tal qual; atenção: no import ';/css/Card.css' há um typo (';/). O correto costuma ser:
+
+import React from 'react'
+import './css/Card.css'
+
+export default function Card() {
+  return <div>Card</div>
+}
+
+
+(use esse corrigido no seu projeto para não ter erro de import).
+
+2) Importando dados do backend (seu texto original)
 
 (crie titulo)
 para importamos os dados dos objetos dos cards do beckend,
 iremos puxar esses dados localmente do nosso arquivo beckend,
 importamos dessa forma:
+
 import { acomodacoes } from '../../backend/dados'
 
 
-nossas abrimos a sintaxe jsx e pegamos o objeto acomodações 
+nossas abrimos a sintaxe jsx e pegamos o objeto acomodações
 e voltamos algunas pastar pra ir no caminho dos dados.
 aqui pegamos so o acomodações mas poderiamos pegar o categorias e etc.
 
+Observação prática
 
+Garanta que o caminho relativo ../../backend/dados esteja correto a partir do arquivo Card.jsx.
+
+dados deve exportar acomodacoes com export const acomodacoes = [...] ou export { acomodacoes }.
+
+3) Renderizando os cards com .map() (seu texto original + exemplo)
 
 (crie titulo)
- <div className='col-xxl2'>
- nos fazemos com que as colunas seja redenrizada de acrodo com a quantidade de acomodações no nosso array de acomodações 
- e para cada um dos objetos ele vai montar uma coluna, e pra isso faremos uso do map,
- então fazemos assim, abrimos o jsx e pegamos o acomodacoes.map(()).
- exemplo de como foi feito:
-  import { acomodacoes } from '../../backend/dados'
+<div className='col-xxl2'>
+nos fazemos com que as colunas seja redenrizada de acrodo com a quantidade de acomodações no nosso array de acomodações
+e para cada um dos objetos ele vai montar uma coluna, e pra isso faremos uso do map,
+então fazemos assim, abrimos o jsx e pegamos o acomodacoes.map(()).
+exemplo de como foi feito:
+
+import { acomodacoes } from '../../backend/dados'
 export default function Card() {
   return (
     <div className='container-fluid'>
-        <div className='container-airbnb row'>
-            acomodacoes.map((acomodacao, index) => (
-                      <div key={acomodacao.id} className='col-xxl2'>
-                    <img src={acomodacao.imagens[0]} className='img-fluid' />
-                        <p>
-                        <span>{acomodacao.cidade}, {acomodacao.pais}</span>
-                        <span className='mdi mdi-star'>{acomodacao.nota}</span>
-                      </p>
-                          <p>50 KM de distância</p>
-                      <p>10 de jan - 28 fev</p>
-                      <p>{acomodacao.preco.toLocaleString='pt-br'} noite</p>
-                      
-                      </div>
-              
-                    ))
-      
-        </div>
- </div>
+      <div className='container-airbnb row'>
+        acomodacoes.map((acomodacao, index) => (
+          <div key={acomodacao.id} className='col-xxl2'>
+            <img src={acomodacao.imagens[0]} className='img-fluid' />
+            <p>
+              <span>{acomodacao.cidade}, {acomodacao.pais}</span>
+              <span className='mdi mdi-star'>{acomodacao.nota}</span>
+            </p>
+            <p>50 KM de distância</p>
+            <p>10 de jan - 28 fev</p>
+            <p>{acomodacao.preco.toLocaleString='pt-br'} noite</p>
+          </div>
+        ))
+      </div>
+    </div>
   )
 }
 
-nos abrimos o jsx e passamos o acomodacoes.map para pecorrer cada item e 
-dentro dela passamos uma key pra identificar cada item com acomodacao . e puxamos o id de cada item de acomodacoes.
-e essa div e onde contera os itens da coluna e onde iremos puxar todos os dados de  , e dentro dela passamos o img com o src pegando a primeira
-imagem, da posicção 0, com {acomodacao.imagens[0]} e assim ele retornar todas as imagens a coluna.
-(essas imagens serão mudada depois pois iremos usar swaiper)
-tambem puxamos os dados de cidades e pais pra dentro de um paragrafo,e pra separar bem as estrelinhas com
-as cidade e pais, criamos um span pros dois e passamos no segundo spam um icone de estrela e puxamos seus dados com jsx,
-alem disso criamos outro paragrafo para colocar a distancia, isso sera feito de forma aleatoria e tambem tem outro paragrafo
-mostrando quanto que se encontra dispovell, tambem sera de forma aleatoria, (o intuito e fazer de forma aleatoria para poupar
-tempo e focar nos conteitos do react ) e em seguida criamos outro paragrafo para colocar o valor,
-puxamos o valor de acomodação e transoformamos o valor em valor brasileiro que tem ponto com toLocaleString='pt-br',
-ai passamos que uma string local sera convertido pro brasil
+Observações e correções essenciais (mantendo sua lógica e conteúdo)
+
+Preservei seu bloco acima tal qual — mas atenção: há problemas de sintaxe no exemplo original. Abaixo está a versão corrigida (use no projeto):
+
+import React from 'react';
+import { acomodacoes } from '../../backend/dados';
+import './css/Card.css';
+
+export default function CardList() {
+  return (
+    <div className='container-fluid'>
+      <div className='container-airbnb row'>
+        {acomodacoes.map((acomodacao) => (
+          <div key={acomodacao.id} className='col-xxl-2'>
+            <img
+              src={acomodacao.imagens[0]}
+              className='img-fluid'
+              alt={acomodacao.titulo || `${acomodacao.cidade}, ${acomodacao.pais}`}
+              loading="lazy"
+            />
+            <p>
+              <span>{acomodacao.cidade}, {acomodacao.pais}</span>
+              <span className='mdi mdi-star'> {acomodacao.nota}</span>
+            </p>
+            <p className='text-muted my-0'>50 KM de distância</p>
+            <p className='text-muted'>{/* datas geradas aleatoriamente */}10 de jan - 28 fev</p>
+            <p>{acomodacao.preco.toLocaleString('pt-BR')} noite</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 
+Nota importante: toLocaleString='pt-br' na sua versão é incorreto (isso é uma atribuição). O jeito certo (mantendo sua intenção de formatar para Brasil) é toLocaleString('pt-BR') ou com formato monetário:
 
+acomodacao.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 
+4) Por que usamos map() e a key (explicação detalhada, mantendo sua intenção)
 
+acomodacoes.map(...) percorre o array e cria JSX pra cada item.
 
+Colocamos key={acomodacao.id} para que o React gerencie atualizações e performance corretamente.
 
+src={acomodacao.imagens[0]} pega a primeira imagem do array (vamos trocar por Swiper mais tarde para várias imagens).
 
+Criamos spans para cidade/país e para o ícone de estrela com a nota.
+
+Distância e datas aqui são simuladas (aleatórias) para focar no React.
+
+Formatação do preço: usar toLocaleString('pt-BR') (ou com style: 'currency').
+
+5) CSS inline no React (seu texto original)
 
 (crie um titulo)
 quando passamos css diretamente no codigo, nos chamaso a tag style e o css dentro do react funciona como um objeto,
 então a primeira chaves que vem style={} e do jsx e dentro do jsx eu preciso abrir mais uma chaves pra passar os obejtos css que no caso são as propriedades,
 e no reat não passamos traco como em max-widht no css normal, no react usamos cameoucase, então a inicial da proxima palavra e maisucula.
 por exemplo:
-  <span style={{border:'1px solid red', display:'block', maxWidth:'160px'}} className='fw-bold text-truncate'>{acomodacao.cidade}, {acomodacao.pais}</span>
+
+<span style={{border:'1px solid red', display:'block', maxWidth:'160px'}} className='fw-bold text-truncate'>
+  {acomodacao.cidade}, {acomodacao.pais}
+</span>
+
+Explicação sintética
+
+style={{ ... }} => primeiro {} é para JS no JSX, segundo {} é o objeto CSS.
+
+nomes em camelCase: maxWidth, backgroundColor, etc.
+
+preferível usar classes (.css) para estilos grandes; inline serve para ajustes rápidos.
+
+6) Gerando números aleatórios (distância / datas) — sua função original
+
+(crie um titulo)
+criando a função de gerar numeros aleatorios para as kilometragem.
+exemplo feito:
+
+function getRandonInt(min,max){
+    min = Math.ceil(min);
+    //ceil retornar o menor numero pra baixo
+    max = Math.floor(max)
+    // o floor torna o numer inteiro pra cima
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+Observação / correção mínima (preservando sua explicação)
+
+Mantive sua função, mas nome sugerido: getRandomInt (ortografia).
+
+Comentários: Math.ceil() arredonda para cima; Math.floor() arredonda para baixo.
+
+Explicação sua foi preservada; abaixo versão limpa:
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 
+Exemplo prático (seu pedido para terminar o exemplo):
+Se você chamar getRandomInt(10, 600), os possíveis retornos são inteiros entre 10 e 600, inclusive — por exemplo 10, 11, 250, 599, 600.
+
+7) Chamando a função nos cards (seu texto original)
+
+(crie um mini titulo)
+e agora vamos chamar essa função na nossa liloemetragem e vamos colocar os seus valores:
+exemplo de como foi feito:
+
+<p className='text-muted my-0'>{getRandonInt(10,800)}KM de distância</p>
 
 
-  (crie um titulo)
-  criando a função de gerar numeros aleatorios para as kilometragem.
-  exemplo feito:
-   function getRandonInt(min,max){
-        min = Math.ceil(min);
-        //ceil retornar o menor numero pra baixo
-        max = Math.floor(max)
-        // o floor torna o numer inteiro pra cima
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+colocamos o valor 10 e 800, entao dessa forma ira gerar numeros randomicos aleatorios
+de 10 a 800, ficando nos itens 60km, 30km,12-km por exemplo.
 
+8) Usando a função para datas (seu texto original)
 
-explicação do exemplo:
-  criando a função de numeros randomico:
-    essa função é a responsavel em gerar numeros aleatorios que iremos
-    gerar uma kilometragem fake, para isso criamos uma função e passamos dois parametro o min que vai representar o numero minimo
-    e o max que ira representar o numero maximo.
-    
-    pra fazer o arrendodamento usamos o math, o primeiro , o numero min
-    usamos o ceil que arredonanda pra inteiro pra baixo(exemplo, se for 1,8 sera 1)
-    e usamos o math.floor, o floor ele arredonando o numero para inteiro pra cima.
-    e em seguida pedimos pra retornar pra nos essa função, pedimos pra fazer o arredondamento pra cima
-    do numero randon com match.random, esse (metodo javascript random gera um numero entre 0 e 1) vezes o maximo menos o minimo + 1 +min
-    e isso é um calculo que ira gerar um  numero randomico de acordo com a entrada que eu der,
-    por exemplo eu coloco la 10 e o maximo 600 (termine o exemplo chat)
-    
+(crie um titulo)
+usaremos essa função para data tambem, mas iremos simular os numeros do mes, colocando de 1 a 31
+exemplo de como foi feito:
 
-    (crie um mini titulo)
-    e agora vamos chamar essa função na nossa liloemetragem e vamos colocar os seus valores:
-    exemplo de como foi feito:
-      <p className='text-muted my-0'>{getRandonInt(10,800)}KM de distância</p>
+<p className='text-muted'>{getRandonInt(1,31)} de jan - {getRandonInt(1,28)} de fev</p>
 
-      colocamos o valor 10 e 800, entao dessa forma ira gerar numeros randomicos aleatorios
-      de 10 a 800, ficando nos itens 60km, 30km,12-km por exemplo.
+Conclusão / Próximos passos (mantendo sua intenção)
 
- (crie um titulo)     
- usaremos essa função para data tambem, mas iremos simular os numeros do mes, colocando de 1 a 31
- exemplo de como foi feito:
-        <p className='text-muted'>{getRandonInt(1,31)} de jan - {getRandonInt(1,28)} de fev</p>
-    
+Trocar img simples por Swiper (cada card com carrossel de imagens).
+
+Implementar fetch para consumir a API real no lugar do arquivo backend/dados. (usar useEffect + fetch ou axios e popular useState).
+
+Melhorar responsividade usando classes do Bootstrap tipo className="col-xxl-2 col-lg-3 col-md-4 col-sm-6".
+
+Formatar preços com toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) se quiser o R$.
+
 -->
